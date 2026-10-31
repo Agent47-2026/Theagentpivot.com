@@ -393,8 +393,9 @@ details.lines summary { cursor: pointer; padding: 14px 22px; font-weight: 600; f
 .demo-points li { display: grid; grid-template-columns: 14px minmax(0, 1fr); gap: 10px; }
 .demo-points li::before { content: ""; width: 10px; height: 10px; margin-top: .45em; border-radius: 50%; background: var(--sun); box-shadow: 0 0 0 3px rgba(255, 255, 255, .25); }
 .form { background: var(--card); color: var(--ink); border-radius: var(--radius); padding: clamp(20px, 3vw, 28px); display: grid; gap: 16px; }
-.form .f input, .form .f select { font: 400 var(--s-md)/1.3 var(--f-body); padding: 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); color: var(--ink); width: 100%; min-width: 0; }
-.form .f input:focus-visible, .form .f select:focus-visible { outline-offset: 0; border-color: var(--primary-2); }
+.form .f input, .form .f select, .form .f textarea { font: 400 var(--s-md)/1.3 var(--f-body); padding: 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); color: var(--ink); width: 100%; min-width: 0; }
+.form .f textarea { min-height: 104px; resize: vertical; }
+.form .f input:focus-visible, .form .f select:focus-visible, .form .f textarea:focus-visible { outline-offset: 0; border-color: var(--primary-2); }
 .form .btn { justify-self: start; }
 .form-status { margin: 0; min-height: 1.4em; font-size: var(--s-sm); color: var(--muted); }
 
@@ -1096,6 +1097,7 @@ body { margin: 0; }
           <li>Your backdrop and number-plate settings</li>
           <li>Your agent fees, freight and on-road costs</li>
         </ul>
+        <p class="sec-intro" style="margin-top: 24px">Already using AutoPivot? Use the same form for help with the app, a privacy question or deleting your account.</p>
       </div>
       <form class="form" id="join-form" novalidate>
         <div class="grid-2">
@@ -1121,6 +1123,9 @@ body { margin: 0; }
             </select>
           </label>
         </div>
+        <label class="f" for="j-message">Message <small>Optional. Questions, help with the app, privacy or deleting an account.</small>
+          <textarea id="j-message" name="message" rows="4" maxlength="2000"></textarea>
+        </label>
         <input class="trap" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
         <button class="btn btn-accent" type="submit">Request access</button>
         <p class="form-status" id="form-status" role="status"></p>
@@ -1316,7 +1321,7 @@ body { margin: 0; }
     dot.addEventListener("click", () => { $("c-resale").value = dot.dataset.p; calc(); });
   });
 
-  // Early access form (not connected to a backend yet)
+  // Sign-up and contact form
   // Public by design: Web3Forms access keys only let this form send to the
   // inbox they were created for. https://web3forms.com
   const WEB3FORMS_ACCESS_KEY = "d2ec3b01-0031-4ebb-a1c7-e187d37bcd23";
@@ -1341,13 +1346,14 @@ body { margin: 0; }
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify({
         access_key: WEB3FORMS_ACCESS_KEY,
-        subject: "AutoPivot access request: " + v("j-dealer"),
+        subject: (v("j-message") ? "AutoPivot message: " : "AutoPivot access request: ") + v("j-dealer"),
         from_name: "theautopivot.com",
         name: v("j-name"),
         email: v("j-email"),
         dealership: v("j-dealer"),
         state: v("j-state"),
         imports_a_year: v("j-volume"),
+        message: v("j-message"),
         botcheck: form.elements.botcheck.checked,
       }),
     })

@@ -8,7 +8,7 @@ It is a single static page (`index.html`) with its images and videos in `media/`
 
 Edit `index.html` and push to `main`. GitHub Pages republishes the site within a minute or two.
 
-The sign-up form sends its details through [Web3Forms](https://web3forms.com) with the access key in `index.html` (`WEB3FORMS_ACCESS_KEY`). Messages arrive at the inbox that key was created for; the address itself is not on the site. To send to a different inbox, create a new key at web3forms.com and replace it.
+The sign-up form, and its optional message box for help, privacy and account-deletion requests, sends its details through [Web3Forms](https://web3forms.com) with the access key in `index.html` (`WEB3FORMS_ACCESS_KEY`). Messages arrive at the inbox that key was created for; the address itself is not on the site. To send to a different inbox, create a new key at web3forms.com and replace it.
 
 ## Custom domain
 
