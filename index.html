@@ -6,12 +6,13 @@
 <title>AutoPivot</title>
 <meta property="og:type" content="website">
 <meta property="og:title" content="AutoPivot">
-<meta property="og:description" content="AutoPivot finds Japanese cars worth importing to Australia: it translates auction sheets, works out the landed and Victorian driveaway cost, and checks Australian resale prices.">
-<meta property="og:image" content="https://theautopivot.com/media/alphard-gf.jpg">
+<meta property="og:description" content="AutoPivot finds Japanese cars worth importing, costs them to the road in Australia and turns phone photos into studio listing photos for car dealers.">
+<meta property="og:image" content="https://theautopivot.com/media/rav4-studio.jpg">
 <meta property="og:url" content="https://theautopivot.com/">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<meta name="description" content="AutoPivot finds Japanese cars worth importing to Australia: it translates auction sheets, works out the landed and Victorian driveaway cost, and checks Australian resale prices.">
+<link rel="icon" href="media/favicon-64.png" type="image/png">
+<link rel="apple-touch-icon" href="media/autopivot-icon.png">
+<meta name="description" content="AutoPivot finds Japanese cars worth importing, costs them to the road in Australia and turns phone photos into studio listing photos for car dealers.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:wght@400..700&family=Noto+Sans+JP:wght@400;700&display=swap">
@@ -397,6 +398,38 @@ details.lines summary { cursor: pointer; padding: 14px 22px; font-weight: 600; f
 .credits a { color: var(--primary-2); }
 .foot-base { margin: 40px 0 0; padding-top: 20px; border-top: 1px solid var(--line); font: 400 var(--s-xs)/1.4 var(--f-mono); color: var(--muted); }
 
+
+/* Brand mark and eight-step journey */
+.logo-img { width: 30px; height: 30px; border-radius: 8px; flex: none; }
+.steps-grid.eight { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.step-phase { font: 600 11px/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent-dark); }
+
+/* Photo studio */
+.studio-row { display: grid; grid-template-columns: minmax(0, .6fr) minmax(0, 1.6fr); gap: 24px; align-items: center; }
+.phone { margin: 0; justify-self: center; width: 100%; max-width: 280px; display: grid; gap: 10px; }
+.phone-screen { position: relative; border: 10px solid #12182A; border-radius: 34px; overflow: hidden; aspect-ratio: 9 / 16; max-width: 100%; background: #000000; box-shadow: var(--shadow); }
+.phone-screen .cap { width: 100%; height: 100%; object-fit: cover; }
+.phone-screen .sil { position: absolute; left: 6%; width: 88%; top: 47%; transform: translateY(-50%); filter: drop-shadow(0 0 2px rgba(0, 0, 0, .6)); }
+.cam-top { position: absolute; top: 12px; left: 10px; right: 10px; display: flex; justify-content: space-between; gap: 6px; }
+.cam-chip { font: 600 11px/1 var(--f-mono); padding: 6px 8px; border-radius: 999px; background: rgba(0, 0, 0, .58); color: #FFFFFF; white-space: nowrap; }
+.level { position: absolute; left: 50%; bottom: 78px; width: 96px; margin-left: -48px; height: 2px; background: rgba(255, 255, 255, .6); }
+.level i { position: absolute; left: 50%; top: -4px; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: #5BD18B; }
+.shutter { position: absolute; left: 50%; bottom: 18px; width: 48px; height: 48px; margin-left: -24px; border-radius: 50%; border: 3px solid #FFFFFF; background: rgba(255, 255, 255, .28); }
+.phone figcaption { text-align: center; font: 500 var(--s-xs)/1.4 var(--f-mono); color: var(--muted); }
+.pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.pair figure { margin: 0; display: grid; gap: 8px; }
+.pair img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius); box-shadow: var(--shadow); }
+.pair figcaption { font: 600 11px/1.3 var(--f-mono); letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+.feat-grid { list-style: none; padding: 0; margin: 32px 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.feat { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; display: grid; gap: 10px; align-content: start; }
+.feat p { margin: 0; color: var(--muted); font-size: var(--s-sm); }
+.app-row { margin-top: 24px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; align-items: center; }
+.app-card { display: flex; gap: 16px; align-items: flex-start; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+.app-card img { width: 64px; height: 64px; border-radius: 14px; flex: none; }
+.app-card p { margin: 6px 0 0; color: var(--muted); font-size: var(--s-sm); }
+.email { font-family: var(--f-mono); font-weight: 600; color: var(--primary-2); -webkit-user-select: all; user-select: all; word-break: break-all; }
+.form-alt { margin: 0; font-size: var(--s-sm); color: var(--muted); }
+
 /* Responsive */
 @media (max-width: 1000px) {
   .steps-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -439,6 +472,15 @@ details.lines summary { cursor: pointer; padding: 14px 22px; font-weight: 600; f
   .lines td, .lines th, .result-head, details.lines summary { padding-inline: 14px; }
   .head-right .btn { padding: 9px 12px; }
 }
+@media (max-width: 1000px) {
+  .steps-grid.eight, .feat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 900px) {
+  .studio-row, .app-row { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+  .steps-grid.eight, .feat-grid, .pair { grid-template-columns: minmax(0, 1fr); }
+}
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
@@ -455,23 +497,20 @@ body { margin: 0; }
 <header class="site-head">
   <div class="wrap head-row">
     <a class="brand" href="#top">
-      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
-        <circle cx="16" cy="16" r="12.5" fill="none" stroke="#233A6B" stroke-width="3" stroke-dasharray="60 19" stroke-linecap="round" transform="rotate(-50 16 16)"/>
-        <circle cx="16" cy="16" r="5.5" fill="#C23B62"/>
-      </svg>
+      <img class="logo-img" src="media/autopivot-icon.png" alt="" width="30" height="30">
       <span>AutoPivot</span>
     </a>
     <div class="head-right">
       <nav aria-label="Main">
         <ul class="nav-links">
           <li><a href="#how">How it works</a></li>
-          <li><a href="#deals">Deals</a></li>
           <li><a href="#calculator">Profit calculator</a></li>
           <li><a href="#sheets">Auction sheets</a></li>
+          <li><a href="#photos">Photo studio</a></li>
           <li><a href="#faq">FAQ</a></li>
         </ul>
       </nav>
-      <a class="btn btn-accent btn-sm" href="#join">Get early access</a>
+      <a class="btn btn-accent btn-sm" href="#join">Get AutoPivot</a>
     </div>
   </div>
 </header>
@@ -480,26 +519,26 @@ body { margin: 0; }
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <p class="eyebrow">Japanese imports for Australian dealers</p>
-        <h1>See the profit on a Japanese car <span class="hl">before you bid.</span></h1>
-        <p class="lede">AutoPivot reads Japanese auction and dealer listings, translates every auction sheet, works out the full landed and Victorian driveaway cost, and checks what the same car sells for in Australia.</p>
+        <p class="eyebrow">For Australian car dealers</p>
+        <h1>From Japanese auction to <span class="hl">studio-ready listing.</span></h1>
+        <p class="lede">AutoPivot finds Japanese cars worth importing, works out what each one will cost and earn in Australia, then turns the photos your team takes on a phone into studio listing photos.</p>
         <div class="cta-row">
-          <a class="btn btn-accent" href="#join">Get early access</a>
+          <a class="btn btn-accent" href="#join">Get AutoPivot</a>
           <a class="btn btn-outline" href="#calculator">Try the profit calculator</a>
         </div>
         <ul class="ticks">
-          <li>Customs duty, import GST, luxury car tax and Victorian duty built in</li>
+          <li>Auction sheets translated and every car costed to the road in Victoria</li>
           <li>Resale range from Australian comparables, with a confidence score</li>
-          <li>Every number labelled as an official rule, an estimate or your input</li>
+          <li>Guided phone capture, your showroom backdrop and plates blurred for you</li>
         </ul>
       </div>
       <div class="hero-visual">
         <figure class="hero-photo">
-          <img src="media/alphard-gf.jpg" alt="Black Toyota Alphard Hybrid in a Japanese showroom" width="1600" height="1200">
-          <figcaption>Example import</figcaption>
+          <img src="media/rav4-studio.jpg" alt="White Toyota RAV4 on the AutoPivot studio turntable, finished from a phone photo" width="1448" height="1086">
+          <figcaption>Phone photo, finished by AutoPivot</figcaption>
         </figure>
         <div class="deal" aria-label="Example deal summary">
-          <div class="deal-top"><span>AutoPivot estimate</span><span class="pill pill-info">Medium confidence</span></div>
+          <div class="deal-top"><span>Import estimate</span><span class="pill pill-info">Medium confidence</span></div>
           <p class="deal-name">2017 Toyota Alphard Hybrid G F</p>
           <dl>
             <div><dt>Price in Japan</dt><dd>¥3,280,000</dd></div>
@@ -530,40 +569,58 @@ body { margin: 0; }
       <div class="sec-head">
         <div>
           <p class="eyebrow">How it works</p>
-          <h2 id="how-title">From a Japanese listing to a profit estimate in six steps.</h2>
+          <h2 id="how-title">One platform from the auction lane to the listing.</h2>
         </div>
-        <p class="sec-intro">You choose the make, model, year and source. The agent does the reading, translating and maths, then hands every car back to you for review. It never bids or buys on its own.</p>
+        <p class="sec-intro">You choose the cars and place the bids. AutoPivot does the reading, the maths and the photo work, and it never bids or buys on its own.</p>
       </div>
-      <ol class="steps-grid">
+      <ol class="steps-grid eight">
         <li class="step">
           <div class="step-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg></span><span class="step-num">01</span></div>
+          <span class="step-phase">Buying</span>
           <h3>Search</h3>
-          <p>Pick a make, model and year, then a source: Goo-net dealer stock, Japan Car Direct auctions or Prestige Motorsport lots.</p>
+          <p>Pick a make, model and year and search Goo-net dealer stock, Japan Car Direct auctions or Prestige Motorsport lots.</p>
         </li>
         <li class="step">
           <div class="step-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h9M8.5 3v2M6 5c0 4 3 7 6 8M11 5c-1 4-4 7-7 8"/><path d="M13 21l4-10 4 10M14.5 17.5h5"/></svg></span><span class="step-num">02</span></div>
+          <span class="step-phase">Buying</span>
           <h3>Read and translate</h3>
           <p>An AI model pulls out more than 15 details per car and translates them. Prices like <code lang="ja">328万円</code>, mileage like <code lang="ja">3.8万km</code> and Japanese era years become plain numbers.</p>
         </li>
         <li class="step">
           <div class="step-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h5"/><circle cx="15.5" cy="16" r="2"/></svg></span><span class="step-num">03</span></div>
+          <span class="step-phase">Buying</span>
           <h3>Check the auction sheet</h3>
           <p>Exterior and interior grades, mileage warnings, damage codes and ownership history are translated, and risky cars get a repair allowance.</p>
         </li>
         <li class="step">
           <div class="step-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="2.5" width="16" height="19" rx="2"/><path d="M8 7h8M8 11.5h2M12 11.5h2M8 15.5h2M12 15.5h2M16 11.5v4"/></svg></span><span class="step-num">04</span></div>
+          <span class="step-phase">Buying</span>
           <h3>Cost it to the road</h3>
-          <p>Landed cost under Australian Border Force rules, then luxury car tax, Victorian motor vehicle duty, roadworthy and registration for the driveaway figure.</p>
+          <p>Landed cost under Australian Border Force rules, then luxury car tax, Victorian duty, roadworthy and registration for the driveaway figure.</p>
         </li>
         <li class="step">
           <div class="step-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20h18"/><path d="M6 16v-5M10 16V7M14 16v-3M18 16V5"/></svg></span><span class="step-num">05</span></div>
+          <span class="step-phase">Buying</span>
           <h3>Price the resale</h3>
-          <p>Matching Australian listings and your own sales records give a likely sale price, a low to high range and a confidence score that explains itself.</p>
+          <p>Australian listings and your own sales records give a likely sale price, a range and a confidence score. You review it and place the bid yourself.</p>
         </li>
         <li class="step">
-          <div class="step-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span><span class="step-num">06</span></div>
-          <h3>You decide</h3>
-          <p>The dashboard ranks every car by estimated profit. You review the numbers, refresh a listing when its price changes, and place bids yourself.</p>
+          <div class="step-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2.5"/><circle cx="12" cy="13.5" r="3.5"/><path d="M8.5 7l1.5-3h4l1.5 3"/></svg></span><span class="step-num">06</span></div>
+          <span class="step-phase">Selling</span>
+          <h3>Shoot it on arrival</h3>
+          <p>Your team walks round the car with the AutoPivot app. An outline and a level guide line up each of the eight angles.</p>
+        </li>
+        <li class="step">
+          <div class="step-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v9a7 7 0 0 0 7 7h9"/><path d="M4 4h16v16"/><path d="M9 15h6"/></svg></span><span class="step-num">07</span></div>
+          <span class="step-phase">Selling</span>
+          <h3>Finish every photo</h3>
+          <p>AutoPivot cuts the car out, places it on your showroom backdrop, evens out the lighting and blurs the number plate.</p>
+        </li>
+        <li class="step">
+          <div class="step-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8.5 8h7M8.5 12h7M8.5 16h4"/></svg></span><span class="step-num">08</span></div>
+          <span class="step-phase">Selling</span>
+          <h3>List and sell</h3>
+          <p>Each car gets a listing with its photos. Redo a shot, add more later, and archive the listing when the car sells.</p>
         </li>
       </ol>
     </div>
@@ -870,31 +927,53 @@ body { margin: 0; }
   </section>
 
   <section class="band-paper" id="photos" aria-labelledby="photos-title">
-    <div class="wrap sec photos">
-      <div>
-        <p class="eyebrow">Preview · AI photo studio</p>
-        <h2 id="photos-title">Car park photos in, showroom photos out.</h2>
-        <p class="sec-intro" style="margin-top: 16px">We're adding an AI photo studio so you can list a car the day you buy it. It cuts the car out of a cluttered auction or car park photo, places it in a clean studio and replaces the number plate with your own.</p>
-        <ul class="ticks">
-          <li>Background removed and replaced with a studio set</li>
-          <li>Colour and contrast lifted, shadow added under the car</li>
-          <li>Number plate found and swapped for your dealership plate</li>
-        </ul>
-        <p class="models">These examples were made from real photos with two open-source models: <b>BiRefNet</b> for cutting the car out and a <b>YOLOS</b> licence-plate detector for finding the plate.</p>
+    <div class="wrap sec">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">Photo studio</p>
+          <h2 id="photos-title">Studio listing photos, shot on a phone.</h2>
+        </div>
+        <p class="sec-intro">When a car reaches your lot, your team walks round it with the AutoPivot app. AutoPivot finds the car in each shot, places it on your dealership's backdrop, evens out the lighting and blurs the plate. Finished photos appear on the listing as each one is ready.</p>
       </div>
-      <div class="photo-stack">
-        <div class="ba" id="ba">
-          <img class="after" src="media/r34-studio.jpg" alt="Blue Nissan Skyline GT-R R34 in a clean studio with an AutoPivot plate" width="1600" height="1067">
-          <img class="before" src="media/r34-before.jpg" alt="The same R34 photographed outside a workshop with its original plate" width="1600" height="1067">
-          <span class="ba-tag l">Original photo</span>
-          <span class="ba-tag r">AI studio</span>
-          <input id="ba-range" type="range" min="0" max="100" value="50" aria-label="Drag to compare the original photo with the AI studio photo">
-          <span class="ba-line" aria-hidden="true"></span>
-          <span class="ba-knob" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M7 5l-4 5 4 5M13 5l4 5-4 5"/></svg></span>
+      <div class="studio-row">
+        <figure class="phone">
+          <div class="phone-screen">
+            <img class="cap" src="media/capture-front-quarter.jpg" alt="Phone camera view of a white RAV4 in a car park" width="540" height="960">
+            <img class="sil" src="media/silhouette-front-quarter.png" alt="" aria-hidden="true" width="480" height="336">
+            <div class="cam-top"><span class="cam-chip">Front &frac34; left</span><span class="cam-chip">2 of 8</span></div>
+            <div class="level" aria-hidden="true"><i></i></div>
+            <span class="shutter" aria-hidden="true"></span>
+          </div>
+          <figcaption>Guided capture: line the car up with the outline</figcaption>
+        </figure>
+        <div class="pair">
+          <figure>
+            <img src="media/rav4-lot.jpg" alt="The RAV4 as photographed in a car park" width="1080" height="608" loading="lazy">
+            <figcaption>On the lot</figcaption>
+          </figure>
+          <figure>
+            <img src="media/rav4-studio.jpg" alt="The same RAV4 on the AutoPivot studio turntable with its plate blurred" width="1448" height="1086" loading="lazy">
+            <figcaption>Finished by AutoPivot</figcaption>
+          </figure>
+        </div>
+      </div>
+      <ul class="feat-grid">
+        <li class="feat"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2.5"/><circle cx="12" cy="13.5" r="3.5"/><path d="M8.5 7l1.5-3h4l1.5 3"/></svg></span><h3>Guided capture</h3><p>An outline shows where the car should sit for each of eight angles, a level keeps the phone straight, and every shot is checked for blur, glare and a cut-off car.</p></li>
+        <li class="feat"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v9a7 7 0 0 0 7 7h9"/><path d="M4 4h16v16"/><path d="M9 15h6"/></svg></span><h3>Automatic processing</h3><p>The car is cut out and placed on your backdrop with realistic tyre contact and shadow. The plate is blurred, pixelated or covered.</p></li>
+        <li class="feat"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8.5 8h7M8.5 12h7M8.5 16h4"/></svg></span><h3>Tidy listings</h3><p>Every car gets a listing with its details and photos. Redo one shot, keep an original, add photos later or archive it when it sells.</p></li>
+        <li class="feat"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 5.5a3 3 0 0 1 0 5.5M18 14.5c1.8.8 3 2.6 3 4.5"/></svg></span><h3>Built for teams</h3><p>Administrators add staff and reset passwords. Everyone sees the same listings, and the app locks with Face ID or a fingerprint.</p></li>
+      </ul>
+      <div class="app-row">
+        <div class="app-card">
+          <img src="media/autopivot-icon.png" alt="AutoPivot app icon" width="64" height="64" loading="lazy">
+          <div>
+            <h3>AutoPivot for iPhone and Android</h3>
+            <p>Accounts are created by your dealership's administrator, so there's no public sign-up. To set up your dealership, email <span class="email">support@luxtradita.com</span> or use the form below.</p>
+          </div>
         </div>
         <div class="reel">
           <video id="reel-video" src="media/studio-reveal.mp4" poster="media/studio-reveal-poster.jpg" autoplay muted loop playsinline aria-label="Supra, R34 and Alphard photos changing from car park to studio"></video>
-          <span>Supra, R34 and Alphard</span>
+          <span>More cars through the photo studio</span>
         </div>
       </div>
     </div>
@@ -909,15 +988,15 @@ body { margin: 0; }
       <div class="faq-list">
         <details>
           <summary>Does AutoPivot bid on or buy cars for me?</summary>
-          <p>No. It finds cars, reads them and costs them. You review every estimate and place bids yourself. Human review stays in charge of condition, import eligibility, final costs and every bid.</p>
+          <p>No. It finds cars, reads them and costs them. You review every estimate and place bids yourself. Condition, import eligibility, final costs and every bid stay with you.</p>
         </details>
         <details>
           <summary>Which state does the driveaway cost cover?</summary>
-          <p>Victoria: motor vehicle duty, roadworthy, registration, TAC and plates. Tell us your state when you sign up for early access.</p>
+          <p>Victoria: motor vehicle duty, roadworthy, registration, TAC and plates. Tell us your state when you get in touch.</p>
         </details>
         <details>
           <summary>Where do the resale prices come from?</summary>
-          <p>Matching Australian listings from Autotrader, plus sales records you import. Each estimate shows how many comparables it used, a low to high range and a confidence score with its reasons, such as a small sample or old listings.</p>
+          <p>Matching Australian listings from Autotrader, plus sales records you import. Each estimate shows how many comparables it used, a low to high range and a confidence score with its reasons.</p>
         </details>
         <details>
           <summary>How accurate are the costs?</summary>
@@ -928,12 +1007,20 @@ body { margin: 0; }
           <p>Auction lots often have no price until they sell. An opening bid isn't a price, so AutoPivot waits for one. Enter the price you'd pay to see the full estimate.</p>
         </details>
         <details>
-          <summary>Can I use my own costs?</summary>
-          <p>Yes. Dealership cost settings cover agent fees, freight, insurance, duty overrides and on-road costs. New searches use them, and each car keeps the settings it was costed with.</p>
+          <summary>Do we need a studio or a special camera?</summary>
+          <p>No. The AutoPivot app runs on iPhone and Android phones. It guides each angle on screen and puts the car on your dealership's backdrop for you.</p>
         </details>
         <details>
-          <summary>When is the AI photo studio available?</summary>
-          <p>It's in preview. Ask for it when you sign up and we'll include you in the first group.</p>
+          <summary>Who can use the photo app?</summary>
+          <p>Your dealership's administrator creates staff accounts, so there's no public sign-up. Everyone in the dealership sees the same listings, whoever took the photos.</p>
+        </details>
+        <details>
+          <summary>What happens to number plates?</summary>
+          <p>AutoPivot finds the plate in every photo and blurs it. It can also pixelate the plate or cover it instead.</p>
+        </details>
+        <details>
+          <summary>Can I use my own costs?</summary>
+          <p>Yes. Dealership cost settings cover agent fees, freight, insurance, duty overrides and on-road costs. New searches use them, and each car keeps the settings it was costed with.</p>
         </details>
       </div>
     </div>
@@ -943,13 +1030,13 @@ body { margin: 0; }
     <img src="media/carrier-melbourne.jpg" alt="" aria-hidden="true" loading="lazy">
     <div class="wrap sec demo">
       <div>
-        <p class="eyebrow">Early access</p>
-        <h2 id="join-title">Your next import, costed to Melbourne before you bid.</h2>
-        <p class="sec-intro" style="margin-top: 16px">We're opening AutoPivot to a small group of Australian dealers and importers first, starting in Victoria.</p>
+        <p class="eyebrow">Get AutoPivot</p>
+        <h2 id="join-title">Set up AutoPivot for your dealership.</h2>
+        <p class="sec-intro" style="margin-top: 16px">Tell us about your dealership and we'll set up your team, your showroom backdrop and your import cost settings.</p>
         <ul class="demo-points">
-          <li>A walkthrough on the cars you're watching right now</li>
-          <li>Your own agent fees, freight and on-road costs set up</li>
-          <li>First look at the AI photo studio</li>
+          <li>Staff accounts for the photo app</li>
+          <li>Your backdrop and number-plate settings</li>
+          <li>Your agent fees, freight and on-road costs</li>
         </ul>
       </div>
       <form class="form" id="join-form" novalidate>
@@ -976,8 +1063,9 @@ body { margin: 0; }
             </select>
           </label>
         </div>
-        <button class="btn btn-accent" type="submit">Request early access</button>
+        <button class="btn btn-accent" type="submit">Request access</button>
         <p class="form-status" id="form-status" role="status"></p>
+        <p class="form-alt">Prefer email? <span class="email">support@luxtradita.com</span></p>
       </form>
     </div>
   </section>
@@ -988,29 +1076,28 @@ body { margin: 0; }
     <div class="foot-grid">
       <div>
         <a class="brand" href="#top">
-          <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
-            <circle cx="16" cy="16" r="12.5" fill="none" stroke="#233A6B" stroke-width="3" stroke-dasharray="60 19" stroke-linecap="round" transform="rotate(-50 16 16)"/>
-            <circle cx="16" cy="16" r="5.5" fill="#C23B62"/>
-          </svg>
+          <img class="logo-img" src="media/autopivot-icon.png" alt="" width="30" height="30">
           <span>AutoPivot</span>
         </a>
-        <p>Find, cost and price Japanese imports for the Australian market. Estimates support your decisions; they are not quotes or official advice.</p>
+        <p>AutoPivot finds, costs and photographs cars for Australian dealers. Estimates support your decisions; they are not quotes or official advice.</p>
+        <p>AutoPivot is made by Lux Tradita. Contact <span class="email">support@luxtradita.com</span>.</p>
       </div>
       <div>
         <h4>Photo and video credits</h4>
         <ul class="credits">
+          <li>RAV4 demo photos and the studio backdrop come from the AutoPivot app.</li>
           <li>Toyota Alphard GF (black) by Tokumeigakarinoaoshima, <a href="https://commons.wikimedia.org/wiki/File:Toyota_ALPHARD_GF_(H30W)_front.jpg" target="_blank" rel="noopener">CC0</a>. Plate replaced.</li>
-          <li>Toyota Alphard X (silver) by TTTNIS, <a href="https://commons.wikimedia.org/wiki/File:2018-2023_Toyota_Alphard_X.jpg" target="_blank" rel="noopener">CC0</a>. Studio version made with AI.</li>
-          <li>Toyota Supra SZ (A80) by Tokumeigakarinoaoshima, <a href="https://commons.wikimedia.org/wiki/File:Toyota_Supra_SZ_(A80)_front.jpg" target="_blank" rel="noopener">CC0</a>. Studio version made with AI.</li>
-          <li>1999 Nissan Skyline GT-R by Calreyn88, <a href="https://commons.wikimedia.org/wiki/File:1999_Nissan_Skyline_GT-R.jpg" target="_blank" rel="noopener">CC BY-SA 4.0</a>. Background and plate replaced; edits shared under the same licence.</li>
+          <li>Toyota Alphard X (silver) by TTTNIS, <a href="https://commons.wikimedia.org/wiki/File:2018-2023_Toyota_Alphard_X.jpg" target="_blank" rel="noopener">CC0</a>.</li>
+          <li>Toyota Supra SZ (A80) by Tokumeigakarinoaoshima, <a href="https://commons.wikimedia.org/wiki/File:Toyota_Supra_SZ_(A80)_front.jpg" target="_blank" rel="noopener">CC0</a>.</li>
+          <li>1999 Nissan Skyline GT-R by Calreyn88, <a href="https://commons.wikimedia.org/wiki/File:1999_Nissan_Skyline_GT-R.jpg" target="_blank" rel="noopener">CC BY-SA 4.0</a>. Background and plate replaced in the studio video; edits shared under the same licence.</li>
           <li>Nissan Skyline GT-R V-spec, Brussels, by Matti Blume, <a href="https://commons.wikimedia.org/wiki/File:Nissan_Skyline_GT-R_V-spec,_BAS_24,_Brussels_(P1170369-RR).jpg" target="_blank" rel="noopener">CC BY-SA 4.0</a>. Plate replaced; edits shared under the same licence.</li>
           <li>Adria Ace, Port of Melbourne, by Bernard Spragg, <a href="https://commons.wikimedia.org/wiki/File:Adria_Ace._Car_carrier_Port_of_Melbourne._(21860228040).jpg" target="_blank" rel="noopener">CC0</a>.</li>
-          <li>“Car carrier 01” video by Koffermejia, <a href="https://commons.wikimedia.org/wiki/File:Car_carrier_01.webm" target="_blank" rel="noopener">CC BY-SA 4.0</a>. Trimmed and re-encoded.</li>
-          <li>AI edits made with <a href="https://huggingface.co/ZhengPeng7/BiRefNet" target="_blank" rel="noopener">BiRefNet</a> (MIT) and <a href="https://huggingface.co/nickmuchi/yolos-small-finetuned-license-plate-detection" target="_blank" rel="noopener">YOLOS licence-plate detection</a>.</li>
+          <li>&ldquo;Car carrier 01&rdquo; video by Koffermejia, <a href="https://commons.wikimedia.org/wiki/File:Car_carrier_01.webm" target="_blank" rel="noopener">CC BY-SA 4.0</a>. Trimmed and re-encoded.</li>
+          <li>Studio edits for this site made with <a href="https://huggingface.co/ZhengPeng7/BiRefNet" target="_blank" rel="noopener">BiRefNet</a> (MIT) and <a href="https://huggingface.co/nickmuchi/yolos-small-finetuned-license-plate-detection" target="_blank" rel="noopener">YOLOS licence-plate detection</a>.</li>
         </ul>
       </div>
     </div>
-    <p class="foot-base">&copy; 2026 AutoPivot. All rights reserved.</p>
+    <p class="foot-base">&copy; 2026 Lux Tradita. All rights reserved.</p>
   </div>
 </footer>
 
@@ -1038,13 +1125,6 @@ body { margin: 0; }
     sheet.dataset.lang = btn.dataset.lang;
     langButtons.forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
   }));
-
-  // Before and after slider
-  const ba = $("ba");
-  const baRange = $("ba-range");
-  const setPos = () => ba.style.setProperty("--pos", baRange.value + "%");
-  baRange.addEventListener("input", setPos);
-  setPos();
 
   // Profit calculator. Mirrors the agent's landed cost, Victorian compliance and auction-sheet risk modules.
   const aud = new Intl.NumberFormat("en-AU", { style: "currency", currency: "AUD", currencyDisplay: "narrowSymbol", maximumFractionDigits: 0 });
@@ -1199,7 +1279,10 @@ body { margin: 0; }
       firstInvalid.focus();
       return;
     }
-    status.textContent = "Preview only: this form is not connected yet, so nothing was sent.";
+    const v = (id) => $(id).value.trim();
+    const body = ["Name: " + v("j-name"), "Dealership: " + v("j-dealer"), "Email: " + v("j-email"), "State: " + v("j-state"), "Imports a year: " + v("j-volume")].join("\n");
+    window.location.href = "mailto:support@luxtradita.com?subject=" + encodeURIComponent("AutoPivot for " + v("j-dealer")) + "&body=" + encodeURIComponent(body);
+    status.textContent = "Your email app should open with these details filled in. If it doesn't, email support@luxtradita.com.";
   });
 })();
 </script>
