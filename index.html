@@ -11,39 +11,41 @@
 <meta property="og:url" content="https://theautopivot.com/">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="media/favicon-64.png" type="image/png">
+<meta name="theme-color" content="#1F4D3A">
 <link rel="apple-touch-icon" href="media/autopivot-icon.png">
 <meta name="description" content="AutoPivot finds Japanese cars worth importing, costs them to the road in Australia and turns phone photos into studio listing photos for car dealers.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:wght@400..700&family=Noto+Sans+JP:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;700&display=swap">
 <style>
-/* Layout: "Japan listing to Australian profit". Light only, indigo and sakura. Off-white and blush
-   bands on a 1200px column. The hero sets a real import on a sakura sun with its deal card; the
+/* Layout: "Japan listing to Australian profit". Light only, in the AutoPivot app's forest green on
+   warm off-white, with the app's Fraunces headings and IBM Plex text, on a 1200px column. The hero sets a real import on a sakura sun with its deal card; the
    page then follows the product: sources, pipeline, ranked dashboard, profit calculator, auction
    sheet, Australian rules over real port footage, AI photo preview. */
 :root {
   color-scheme: light;
-  --bg: #FCFAFB;
-  --paper: #F7EFF3;
+  --bg: #FBFAF8;
+  --paper: #F5F2EC;
   --card: #FFFFFF;
-  --ink: #1A2238;
-  --muted: #5A6278;
-  --line: #E6DCE2;
-  --primary: #233A6B;
-  --primary-2: #3A5A9B;
-  --primary-wash: #ECEFF8;
-  --accent: #C23B62;
-  --accent-dark: #A42E50;
-  --accent-wash: #FBE8EE;
-  --sun: #F3C6D4;
+  --ink: #1A1A17;
+  --muted: #4A4A44;
+  --line: #E2DED6;
+  --primary: #1F4D3A;
+  --primary-2: #2A6B4F;
+  --primary-wash: #EAF0EC;
+  --deep: #10291F;
+  --accent: #1F4D3A;
+  --accent-dark: #163B2C;
+  --accent-wash: #E4EEE7;
+  --sun: #D9E6DD;
   --good: #157A47;
   --good-wash: #E6F4EC;
-  --bad: #B3261E;
-  --bad-wash: #FCE9E7;
-  --warn: #9A5300;
-  --warn-wash: #FDF1E2;
+  --bad: #A33A28;
+  --bad-wash: #F6E6E2;
+  --warn: #936014;
+  --warn-wash: #F7EDDC;
   --on-primary: #FFFFFF;
-  --on-primary-2: #C3CDE6;
+  --on-primary-2: #CFE0D5;
 
   /* Driveaway breakdown series, validated for CVD separation on white */
   --c-car: #1F5FBF;
@@ -52,8 +54,8 @@
   --c-arrive: #EDA100;
   --c-road: #E87BA4;
 
-  --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
-  --f-body: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --f-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --f-body: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --f-jp: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
 
@@ -66,7 +68,7 @@
 
   --wrap: 1200px;
   --radius: 10px;
-  --shadow: 0 24px 48px -24px rgba(26, 34, 56, .38);
+  --shadow: 0 24px 48px -24px rgba(26, 26, 23, .32);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -103,11 +105,11 @@ section[id] { scroll-margin-top: 76px; }
 .band-paper { background: var(--paper); }
 
 /* Type */
-h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; color: var(--primary); }
-h1 { font-weight: 850; font-stretch: 116%; font-size: var(--s-hero); line-height: 1.02; letter-spacing: -.028em; margin-top: 16px; }
-h1 .hl { color: var(--accent); }
-h2 { font-weight: 800; font-stretch: 112%; font-size: var(--s-2xl); line-height: 1.06; letter-spacing: -.02em; margin-top: 12px; }
-h3 { font-weight: 800; font-stretch: 108%; font-size: var(--s-lg); line-height: 1.2; letter-spacing: -.01em; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; color: var(--ink); font-optical-sizing: auto; }
+h1 { font-weight: 500; font-size: var(--s-hero); line-height: 1.04; letter-spacing: -.025em; margin-top: 16px; }
+h1 .hl { color: var(--primary); font-style: italic; }
+h2 { font-weight: 500; font-size: var(--s-2xl); line-height: 1.08; letter-spacing: -.02em; margin-top: 12px; }
+h3 { font-weight: 600; font-size: var(--s-lg); line-height: 1.2; letter-spacing: -.01em; }
 .eyebrow { margin: 0; display: inline-flex; align-items: center; gap: 10px; font: 500 var(--s-xs)/1.3 var(--f-mono); letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
 .eyebrow::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); flex: none; }
 .sec-head { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 20px 48px; align-items: end; margin-bottom: clamp(28px, 4vw, 48px); }
@@ -135,9 +137,9 @@ h3 { font-weight: 800; font-stretch: 108%; font-size: var(--s-lg); line-height: 
 .chip-you { background: var(--accent-wash); color: var(--accent-dark); }
 
 /* Header */
-.site-head { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50; background: rgba(252, 250, 251, .94); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.site-head { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50; background: rgba(251, 250, 248, .94); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
 .head-row { display: flex; align-items: center; gap: 24px; min-height: 64px; }
-.brand { display: inline-flex; align-items: center; gap: 10px; font: 800 1.2rem/1 var(--f-display); font-stretch: 115%; letter-spacing: -.015em; text-decoration: none; color: var(--primary); }
+.brand { display: inline-flex; align-items: center; gap: 10px; font: 600 1.3rem/1 var(--f-display); letter-spacing: -.015em; text-decoration: none; color: var(--primary); }
 .logo { width: 28px; height: 28px; flex: none; }
 .head-right { margin-left: auto; display: flex; align-items: center; gap: 28px; }
 .nav-links { display: flex; gap: 22px; list-style: none; padding: 0; margin: 0; }
@@ -159,7 +161,7 @@ h3 { font-weight: 800; font-stretch: 108%; font-size: var(--s-lg); line-height: 
 .hero-visual::before { content: ""; position: absolute; z-index: 0; width: min(80%, 460px); aspect-ratio: 1 / 1; border-radius: 50%; background: var(--sun); top: -8%; right: -10%; }
 .hero-photo { position: relative; z-index: 1; margin: 0; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); aspect-ratio: 4 / 3; max-width: 100%; }
 .hero-photo img { width: 100%; height: 100%; object-fit: cover; }
-.hero-photo figcaption { position: absolute; left: 12px; top: 12px; font: 600 11px/1 var(--f-mono); letter-spacing: .07em; text-transform: uppercase; padding: 7px 9px; border-radius: 4px; background: rgba(26, 34, 56, .72); color: #FFFFFF; }
+.hero-photo figcaption { position: absolute; left: 12px; top: 12px; font: 600 11px/1 var(--f-mono); letter-spacing: .07em; text-transform: uppercase; padding: 7px 9px; border-radius: 4px; background: rgba(26, 26, 23, .72); color: #FFFFFF; }
 .deal {
   position: relative; z-index: 2; width: min(360px, 92%); margin: -44px 12px 0 auto;
   background: var(--card); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow);
@@ -167,12 +169,12 @@ h3 { font-weight: 800; font-stretch: 108%; font-size: var(--s-lg); line-height: 
 }
 .deal-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 .deal-top span { font: 600 11px/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-.deal-name { margin: 0; font: 800 1.05rem/1.25 var(--f-display); font-stretch: 106%; color: var(--ink); }
+.deal-name { margin: 0; font: 600 1.1rem/1.25 var(--f-display); color: var(--ink); }
 .deal dl { margin: 0; display: grid; gap: 0; }
 .deal dl div { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-top: 1px dashed var(--line); font-size: var(--s-sm); }
 .deal dt { color: var(--muted); }
 .deal dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
-.deal .profit dd { color: var(--good); font: 850 1.3rem/1 var(--f-display); font-stretch: 108%; }
+.deal .profit dd { color: var(--good); font: 600 1.4rem/1 var(--f-display); }
 
 /* Sources */
 .sources { border-block: 1px solid var(--line); background: var(--card); }
@@ -182,15 +184,9 @@ h3 { font-weight: 800; font-stretch: 108%; font-size: var(--s-lg); line-height: 
 .src-list li { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: var(--s-sm); padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); }
 .src-list small { font: 500 11px/1 var(--f-mono); color: var(--muted); }
 
-/* Pipeline */
-.steps-grid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.step { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; display: flex; flex-direction: column; gap: 10px; }
-.step-top { display: flex; align-items: center; justify-content: space-between; }
+/* Icons */
 .ico { width: 42px; height: 42px; border-radius: 9px; background: var(--primary-wash); color: var(--primary); display: grid; place-items: center; }
 .ico svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.step-num { font: 500 var(--s-xs)/1 var(--f-mono); color: var(--muted); letter-spacing: .06em; }
-.step p { margin: 0; color: var(--muted); font-size: var(--s-sm); }
-.step code { font: 500 .85em var(--f-jp); background: var(--paper); padding: 1px 5px; border-radius: 4px; color: var(--ink); }
 
 /* Dashboard preview */
 .dash { background: var(--card); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
@@ -209,7 +205,7 @@ h3 { font-weight: 800; font-stretch: 108%; font-size: var(--s-lg); line-height: 
 .deal-row .v { font-weight: 600; font-variant-numeric: tabular-nums; }
 .deal-row .v small { display: block; font: 500 11px/1.3 var(--f-mono); color: var(--muted); }
 .deal-row .profit-cell { display: grid; justify-items: end; gap: 6px; }
-.profit-val { font: 850 1.15rem/1 var(--f-display); font-stretch: 106%; font-variant-numeric: tabular-nums; }
+.profit-val { font: 600 1.2rem/1 var(--f-display); font-variant-numeric: tabular-nums; }
 .profit-val.up { color: var(--good); }
 .profit-val.down { color: var(--bad); }
 .dash-note { margin: 14px 0 0; font-size: var(--s-xs); color: var(--muted); }
@@ -224,8 +220,8 @@ legend { padding: 0 6px; margin-left: -6px; font: 600 var(--s-xs)/1 var(--f-mono
 .f { display: grid; gap: 6px; font-size: var(--s-sm); font-weight: 600; min-width: 0; }
 .f small { font-weight: 400; color: var(--muted); font-size: var(--s-xs); }
 .in { display: flex; align-items: stretch; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); overflow: hidden; }
-.in:focus-within { border-color: var(--primary-2); box-shadow: 0 0 0 3px rgba(58, 90, 155, .2); }
-.in .u { display: grid; place-items: center; padding: 0 10px; font: 500 var(--s-xs)/1 var(--f-mono); color: var(--muted); background: #F0E6EC; white-space: nowrap; }
+.in:focus-within { border-color: var(--primary-2); box-shadow: 0 0 0 3px rgba(42, 107, 79, .2); }
+.in .u { display: grid; place-items: center; padding: 0 10px; font: 500 var(--s-xs)/1 var(--f-mono); color: var(--muted); background: #EEEAE2; white-space: nowrap; }
 .in input, .f > select { flex: 1; min-width: 0; width: 100%; font: 500 var(--s-md)/1.2 var(--f-body); font-variant-numeric: tabular-nums; padding: 11px 10px; border: 0; background: transparent; color: var(--ink); }
 .in input:focus { outline: none; }
 .f > select { border: 1px solid var(--line); border-radius: 6px; background: var(--paper); }
@@ -238,7 +234,7 @@ legend { padding: 0 6px; margin-left: -6px; font: 600 var(--s-xs)/1 var(--f-mono
 .kv { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .kv div { background: var(--paper); border-radius: 8px; padding: 12px 14px; }
 .kv span { display: block; font: 500 11px/1.3 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
-.kv b { display: block; margin-top: 6px; font: 800 1.35rem/1.1 var(--f-display); font-stretch: 108%; color: var(--primary); font-variant-numeric: tabular-nums; }
+.kv b { display: block; margin-top: 6px; font: 600 1.4rem/1.1 var(--f-display); color: var(--ink); font-variant-numeric: tabular-nums; }
 .kv .big { grid-column: 1 / -1; background: var(--good-wash); }
 .kv .big b { font-size: clamp(1.9rem, 1.5rem + 1.5vw, 2.5rem); color: var(--good); }
 .kv .big.loss { background: var(--bad-wash); }
@@ -272,6 +268,18 @@ details.lines summary { cursor: pointer; padding: 14px 22px; font-weight: 600; f
 .warns li { display: grid; grid-template-columns: 16px minmax(0, 1fr); gap: 8px; color: var(--warn); }
 .warns li::before { content: "!"; display: grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; background: var(--warn-wash); font: 700 11px/1 var(--f-mono); }
 
+/* Folded cost groups */
+.fold { border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); }
+.fold > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 12px; padding: 16px 18px; }
+.fold > summary::-webkit-details-marker { display: none; }
+.fold > summary b { font: 600 var(--s-xs)/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--primary); }
+.fold > summary small { margin-left: auto; font-size: var(--s-xs); color: var(--muted); text-align: right; }
+.fold > summary::after { content: "+"; font: 500 1.15rem/1 var(--f-mono); color: var(--primary); }
+.fold[open] > summary::after { content: "\2212"; }
+.fold > fieldset { border: 0; border-radius: 0; background: none; padding: 0 18px 18px; }
+.fold-note { margin: 0; font-size: var(--s-xs); color: var(--muted); }
+@media (max-width: 900px) { .calc .result { order: -1; } }
+
 /* Comparables strip */
 .comps { position: relative; margin-top: 4px; }
 .comps svg { width: 100%; height: auto; overflow: visible; }
@@ -303,7 +311,7 @@ details.lines summary { cursor: pointer; padding: 14px 22px; font-weight: 600; f
 .sheet-top > div + div { border-left: 1px solid var(--line); }
 .lbl { display: flex; gap: 6px; align-items: baseline; font: 500 11px/1.2 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 .lbl [lang="ja"] { font-size: 11px; letter-spacing: 0; text-transform: none; color: var(--ink); }
-.big-v { display: block; margin-top: 6px; font: 850 2rem/1 var(--f-display); font-stretch: 112%; color: var(--primary); }
+.big-v { display: block; margin-top: 6px; font: 600 2rem/1 var(--f-display); color: var(--primary); }
 .lot { display: block; margin-top: 8px; font: 600 1.05rem/1.2 var(--f-mono); color: var(--ink); }
 .sheet-body { display: grid; grid-template-columns: minmax(0, 1fr) 132px; border-bottom: 1px solid var(--line); }
 .fields { margin: 0; padding: 4px 14px; }
@@ -315,32 +323,33 @@ details.lines summary { cursor: pointer; padding: 14px 22px; font-weight: 600; f
 .damage { border-left: 1px solid var(--line); padding: 10px 8px; display: grid; align-content: start; gap: 6px; }
 .damage svg { width: 100%; max-width: 112px; height: auto; margin-inline: auto; }
 .damage .lbl { justify-content: center; }
-.dmg-body { fill: none; stroke: #8796A9; stroke-width: 1.4; }
-.dmg-glass { fill: #EEF2F7; stroke: #8796A9; stroke-width: 1.2; }
-.dmg-mark { fill: var(--accent-wash); stroke: var(--accent); stroke-width: 1.4; }
-.dmg-txt { font: 700 8px var(--f-mono); fill: var(--accent); text-anchor: middle; dominant-baseline: central; }
+.dmg-body { fill: none; stroke: #8A877F; stroke-width: 1.4; }
+.dmg-glass { fill: #F1EFEA; stroke: #8A877F; stroke-width: 1.2; }
+.dmg-mark { fill: var(--bad-wash); stroke: var(--bad); stroke-width: 1.4; }
+.dmg-txt { font: 700 8px var(--f-mono); fill: var(--bad); text-anchor: middle; dominant-baseline: central; }
 .notes { position: relative; padding: 12px 88px 12px 14px; border-bottom: 1px solid var(--line); min-height: 86px; }
 .notes p { margin: 6px 0 0; line-height: 1.5; }
-.hanko { position: absolute; right: 16px; top: 50%; margin-top: -29px; width: 58px; height: 58px; border: 2.5px solid var(--accent); border-radius: 50%; color: var(--accent); display: grid; place-items: center; font: 700 13px/1 var(--f-jp); writing-mode: vertical-rl; letter-spacing: .05em; transform: rotate(-12deg); opacity: .88; pointer-events: none; }
+.hanko { position: absolute; right: 16px; top: 50%; margin-top: -29px; width: 58px; height: 58px; border: 2.5px solid var(--bad); border-radius: 50%; color: var(--bad); display: grid; place-items: center; font: 700 13px/1 var(--f-jp); writing-mode: vertical-rl; letter-spacing: .05em; transform: rotate(-12deg); opacity: .88; pointer-events: none; }
 .verdict { padding: 14px; background: var(--primary-wash); display: grid; gap: 8px; }
 .verdict-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
 .agent-tag { font: 600 11px/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--primary-2); }
 .verdict p { margin: 0; font-weight: 500; }
 
 /* Rules band with video */
-.rules { position: relative; overflow: hidden; background: #10182B; color: #FFFFFF; }
+.rules { position: relative; overflow: hidden; background: var(--deep); color: #FFFFFF; }
 .rules video, .rules .poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .55; }
-.rules::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(16, 24, 43, .92) 0%, rgba(16, 24, 43, .72) 55%, rgba(16, 24, 43, .35) 100%); }
+.rules::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(16, 41, 31, .93) 0%, rgba(16, 41, 31, .74) 55%, rgba(16, 41, 31, .38) 100%); }
 .rules .wrap { position: relative; z-index: 1; }
 .rules h2 { color: #FFFFFF; }
 .rules .eyebrow { color: var(--on-primary-2); }
-.rules .sec-intro { color: #D5DCEC; }
+.rules .eyebrow::before, .join .eyebrow::before { background: var(--sun); }
+.rules .sec-intro { color: #D9E5DC; }
 .rule-grid { list-style: none; padding: 0; margin: 32px 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: rgba(255, 255, 255, .16); border: 1px solid rgba(255, 255, 255, .16); border-radius: var(--radius); overflow: hidden; max-width: 980px; }
-.rule-grid li { background: rgba(16, 24, 43, .78); padding: 18px; display: grid; gap: 6px; align-content: start; }
-.rule-grid b { font: 850 1.6rem/1 var(--f-display); font-stretch: 110%; color: #FFFFFF; font-variant-numeric: tabular-nums; }
-.rule-grid span { font-size: var(--s-sm); color: #D5DCEC; }
+.rule-grid li { background: rgba(16, 41, 31, .8); padding: 18px; display: grid; gap: 6px; align-content: start; }
+.rule-grid b { font: 600 1.6rem/1 var(--f-display); color: #FFFFFF; font-variant-numeric: tabular-nums; }
+.rule-grid span { font-size: var(--s-sm); color: #D9E5DC; }
 .rule-grid small { font: 500 11px/1.3 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--sun); }
-.video-credit { position: relative; z-index: 1; margin: 18px 0 0; font: 400 11px/1.4 var(--f-mono); color: #AEB8CF; }
+.video-credit { position: relative; z-index: 1; margin: 18px 0 0; font: 400 11px/1.4 var(--f-mono); color: #A9C2B2; }
 .video-toggle { margin-top: 20px; font: 600 12px/1 var(--f-body); padding: 8px 12px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .4); background: transparent; color: #FFFFFF; cursor: pointer; }
 
 /* AI photos */
@@ -350,16 +359,16 @@ details.lines summary { cursor: pointer; padding: 14px 22px; font-weight: 600; f
 .ba img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .ba .before { clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
 .ba-line { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 2px; margin-left: -1px; background: #FFFFFF; pointer-events: none; }
-.ba-knob { position: absolute; top: 50%; left: var(--pos); width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 4px 12px rgba(26, 34, 56, .3); display: grid; place-items: center; pointer-events: none; color: var(--primary); }
+.ba-knob { position: absolute; top: 50%; left: var(--pos); width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 4px 12px rgba(26, 26, 23, .3); display: grid; place-items: center; pointer-events: none; color: var(--primary); }
 .ba-knob svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .ba input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; }
 .ba input:focus-visible ~ .ba-knob { outline: 3px solid var(--primary-2); outline-offset: 2px; }
 .ba-tag { position: absolute; top: 12px; z-index: 2; font: 600 11px/1 var(--f-mono); letter-spacing: .07em; text-transform: uppercase; padding: 7px 9px; border-radius: 4px; pointer-events: none; }
-.ba-tag.l { left: 12px; background: rgba(26, 34, 56, .75); color: #FFFFFF; }
+.ba-tag.l { left: 12px; background: rgba(26, 26, 23, .75); color: #FFFFFF; }
 .ba-tag.r { right: 12px; background: #FFFFFF; color: var(--primary); }
 .reel { position: relative; border-radius: var(--radius); overflow: hidden; aspect-ratio: 16 / 9; max-width: 100%; background: var(--line); }
 .reel video { width: 100%; height: 100%; object-fit: cover; }
-.reel span { position: absolute; left: 12px; bottom: 12px; font: 600 11px/1 var(--f-mono); letter-spacing: .07em; text-transform: uppercase; padding: 7px 9px; border-radius: 4px; background: rgba(26, 34, 56, .75); color: #FFFFFF; }
+.reel span { position: absolute; left: 12px; bottom: 12px; font: 600 11px/1 var(--f-mono); letter-spacing: .07em; text-transform: uppercase; padding: 7px 9px; border-radius: 4px; background: rgba(26, 26, 23, .75); color: #FFFFFF; }
 .models { margin: 20px 0 0; padding: 14px 16px; border: 1px dashed var(--line); border-radius: 8px; font-size: var(--s-xs); color: var(--muted); background: var(--card); }
 .models b { color: var(--ink); }
 
@@ -369,21 +378,21 @@ details.lines summary { cursor: pointer; padding: 14px 22px; font-weight: 600; f
 .faq details { border-bottom: 1px solid var(--line); }
 .faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; gap: 16px; padding: 18px 0; font-weight: 600; }
 .faq summary::-webkit-details-marker { display: none; }
-.faq summary::after { content: "+"; font: 500 1.2rem/1 var(--f-mono); color: var(--accent); }
+.faq summary::after { content: "+"; font: 500 1.2rem/1 var(--f-mono); color: var(--primary); }
 .faq details[open] summary::after { content: "\2212"; }
 .faq details p { margin: -4px 0 20px; color: var(--muted); max-width: 62ch; }
 
 /* Early access */
 .join { position: relative; overflow: hidden; background: var(--primary); color: #FFFFFF; }
 .join > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .28; }
-.join::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(35, 58, 107, .97) 0%, rgba(35, 58, 107, .9) 50%, rgba(35, 58, 107, .75) 100%); }
+.join::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(31, 77, 58, .97) 0%, rgba(31, 77, 58, .9) 50%, rgba(31, 77, 58, .76) 100%); }
 .join .wrap { position: relative; z-index: 1; }
 .join h2 { color: #FFFFFF; }
 .join .eyebrow, .join .sec-intro { color: var(--on-primary-2); }
 .demo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
 .demo-points { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 10px; }
 .demo-points li { display: grid; grid-template-columns: 14px minmax(0, 1fr); gap: 10px; }
-.demo-points li::before { content: ""; width: 10px; height: 10px; margin-top: .45em; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px rgba(255, 255, 255, .9); }
+.demo-points li::before { content: ""; width: 10px; height: 10px; margin-top: .45em; border-radius: 50%; background: var(--sun); box-shadow: 0 0 0 3px rgba(255, 255, 255, .25); }
 .form { background: var(--card); color: var(--ink); border-radius: var(--radius); padding: clamp(20px, 3vw, 28px); display: grid; gap: 16px; }
 .form .f input, .form .f select { font: 400 var(--s-md)/1.3 var(--f-body); padding: 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); color: var(--ink); width: 100%; min-width: 0; }
 .form .f input:focus-visible, .form .f select:focus-visible { outline-offset: 0; border-color: var(--primary-2); }
@@ -400,15 +409,50 @@ details.lines summary { cursor: pointer; padding: 14px 22px; font-weight: 600; f
 .foot-base { margin: 40px 0 0; padding-top: 20px; border-top: 1px solid var(--line); font: 400 var(--s-xs)/1.4 var(--f-mono); color: var(--muted); }
 
 
-/* Brand mark and eight-step journey */
+/* Brand mark */
 .logo-img { width: 30px; height: 30px; border-radius: 8px; flex: none; }
-.steps-grid.eight { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.step-phase { font: 600 11px/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent-dark); }
+
+
+/* How it connects: buying, the purchase, selling, and what both share */
+.flow { display: grid; grid-template-columns: minmax(0, 1fr) 176px minmax(0, 1fr); gap: 16px; align-items: center; }
+.half { background: var(--card); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; height: 100%; }
+.half-head { background: var(--primary); color: #FFFFFF; padding: 18px 22px; }
+.half-head .tag { font: 500 11px/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--on-primary-2); }
+.half-head h3 { color: #FFFFFF; font-size: 1.6rem; margin-top: 6px; }
+.half-head p { margin: 4px 0 0; font-size: var(--s-sm); color: var(--on-primary-2); }
+.half ol { list-style: none; margin: 0; padding: 16px 22px 20px; display: grid; gap: 14px; }
+.half li { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 12px; align-items: start; }
+.half .n { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font: 500 12px/1 var(--f-mono); color: var(--primary); background: var(--primary-wash); border: 1px solid var(--primary); }
+.half li b { display: block; font-weight: 600; }
+.half li span:not(.n) { display: block; font-size: var(--s-sm); color: var(--muted); }
+.half code { font: 500 .85em var(--f-jp); background: var(--paper); padding: 1px 5px; border-radius: 4px; color: var(--ink); }
+.half-photos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 0 22px 22px; margin: 0; }
+.half-photos figure { margin: 0; display: grid; gap: 6px; }
+.half-photos img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 8px; }
+.half-photos figcaption { font: 500 11px/1.2 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.bridge { display: grid; justify-items: center; gap: 10px; text-align: center; }
+.bridge .arrow { width: 16px; height: 34px; color: var(--primary); }
+.bridge .arrow.side { transform: rotate(-90deg); }
+.bridge .step-pill { font: 600 var(--s-sm)/1.2 var(--f-body); padding: 10px 14px; border-radius: 10px; border: 1.5px solid var(--primary); color: var(--primary); background: var(--card); white-space: nowrap; }
+.bridge .step-pill.solid { background: var(--primary); color: #FFFFFF; }
+.bridge small { font-size: var(--s-xs); color: var(--muted); line-height: 1.35; max-width: 16ch; }
+.base { margin-top: 20px; border: 1.5px solid var(--primary); background: var(--primary-wash); border-radius: 14px; padding: 18px 22px; text-align: center; }
+.base .tag { font: 500 11px/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--primary); }
+.parts { list-style: none; padding: 0; margin: 14px 0 12px; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; }
+.parts li { display: inline-flex; align-items: center; gap: 8px; }
+.parts li + li::before { content: "\2194"; color: var(--primary); font: 500 14px/1 var(--f-mono); }
+.parts span { font-weight: 600; font-size: var(--s-sm); padding: 8px 12px; border-radius: 10px; border: 1.5px solid var(--primary); background: var(--card); color: var(--primary); }
+.parts .core span { background: var(--primary); color: #FFFFFF; }
+.base p { margin: 0; font-size: var(--s-sm); }
+@media (max-width: 900px) {
+  .flow { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .bridge .arrow.side { transform: none; }
+}
 
 /* Photo studio */
 .studio-row { display: grid; grid-template-columns: minmax(0, .6fr) minmax(0, 1.6fr); gap: 24px; align-items: center; }
 .phone { margin: 0; justify-self: center; width: 100%; max-width: 280px; display: grid; gap: 10px; }
-.phone-screen { position: relative; border: 10px solid #12182A; border-radius: 34px; overflow: hidden; aspect-ratio: 9 / 16; max-width: 100%; background: #000000; box-shadow: var(--shadow); }
+.phone-screen { position: relative; border: 10px solid #1A1A17; border-radius: 34px; overflow: hidden; aspect-ratio: 9 / 16; max-width: 100%; background: #000000; box-shadow: var(--shadow); }
 .phone-screen .cap { width: 100%; height: 100%; object-fit: cover; }
 .phone-screen .sil { position: absolute; left: 6%; width: 88%; top: 47%; transform: translateY(-50%); filter: drop-shadow(0 0 2px rgba(0, 0, 0, .6)); }
 .cam-top { position: absolute; top: 12px; left: 10px; right: 10px; display: flex; justify-content: space-between; gap: 6px; }
@@ -433,7 +477,6 @@ details.lines summary { cursor: pointer; padding: 14px 22px; font-weight: 600; f
 
 /* Responsive */
 @media (max-width: 1000px) {
-  .steps-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .rule-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .dash-head { display: none; }
   .deal-row { grid-template-columns: 120px minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "img name name" "img buy drive" "img resale profit"; row-gap: 8px; }
@@ -454,12 +497,13 @@ details.lines summary { cursor: pointer; padding: 14px 22px; font-weight: 600; f
 }
 @media (max-width: 820px) { .nav-links { display: none; } }
 @media (max-width: 640px) {
-  .steps-grid, .grid-2, .grid-3, .rule-grid { grid-template-columns: minmax(0, 1fr); }
+  .grid-2, .grid-3, .rule-grid { grid-template-columns: minmax(0, 1fr); }
   .hero-visual { padding-bottom: 0; }
   .deal { position: relative; left: auto; bottom: auto; width: auto; margin-top: -40px; margin-inline: 12px; }
   .hero-visual::before { width: 72%; right: -16%; top: -5%; }
   .deal-row { grid-template-columns: 88px minmax(0, 1fr) minmax(0, 1fr); padding-inline: 14px; gap: 10px; }
   .thumb { width: 88px; }
+  .profit-cell .pill { white-space: normal; line-height: 1.25; }
 }
 @media (max-width: 520px) {
   .sheet-top { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -474,13 +518,13 @@ details.lines summary { cursor: pointer; padding: 14px 22px; font-weight: 600; f
   .head-right .btn { padding: 9px 12px; }
 }
 @media (max-width: 1000px) {
-  .steps-grid.eight, .feat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .feat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 900px) {
   .studio-row, .app-row { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 640px) {
-  .steps-grid.eight, .feat-grid, .pair { grid-template-columns: minmax(0, 1fr); }
+  .feat-grid, .pair { grid-template-columns: minmax(0, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -572,58 +616,59 @@ body { margin: 0; }
           <p class="eyebrow">How it works</p>
           <h2 id="how-title">One platform from the auction lane to the listing.</h2>
         </div>
-        <p class="sec-intro">You choose the cars and place the bids. AutoPivot does the reading, the maths and the photo work, and it never bids or buys on its own.</p>
+        <p class="sec-intro">Two tools joined into one. The car you find and cost when buying is the car you photograph and list when selling.</p>
       </div>
-      <ol class="steps-grid eight">
-        <li class="step">
-          <div class="step-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg></span><span class="step-num">01</span></div>
-          <span class="step-phase">Buying</span>
-          <h3>Search</h3>
-          <p>Pick a make, model and year and search Goo-net dealer stock, Japan Car Direct auctions or Prestige Motorsport lots.</p>
-        </li>
-        <li class="step">
-          <div class="step-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h9M8.5 3v2M6 5c0 4 3 7 6 8M11 5c-1 4-4 7-7 8"/><path d="M13 21l4-10 4 10M14.5 17.5h5"/></svg></span><span class="step-num">02</span></div>
-          <span class="step-phase">Buying</span>
-          <h3>Read and translate</h3>
-          <p>An AI model pulls out more than 15 details per car and translates them. Prices like <code lang="ja">328万円</code>, mileage like <code lang="ja">3.8万km</code> and Japanese era years become plain numbers.</p>
-        </li>
-        <li class="step">
-          <div class="step-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h5"/><circle cx="15.5" cy="16" r="2"/></svg></span><span class="step-num">03</span></div>
-          <span class="step-phase">Buying</span>
-          <h3>Check the auction sheet</h3>
-          <p>Exterior and interior grades, mileage warnings, damage codes and ownership history are translated, and risky cars get a repair allowance.</p>
-        </li>
-        <li class="step">
-          <div class="step-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="2.5" width="16" height="19" rx="2"/><path d="M8 7h8M8 11.5h2M12 11.5h2M8 15.5h2M12 15.5h2M16 11.5v4"/></svg></span><span class="step-num">04</span></div>
-          <span class="step-phase">Buying</span>
-          <h3>Cost it to the road</h3>
-          <p>Landed cost under Australian Border Force rules, then luxury car tax, Victorian duty, roadworthy and registration for the driveaway figure.</p>
-        </li>
-        <li class="step">
-          <div class="step-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20h18"/><path d="M6 16v-5M10 16V7M14 16v-3M18 16V5"/></svg></span><span class="step-num">05</span></div>
-          <span class="step-phase">Buying</span>
-          <h3>Price the resale</h3>
-          <p>Australian listings and your own sales records give a likely sale price, a range and a confidence score. You review it and place the bid yourself.</p>
-        </li>
-        <li class="step">
-          <div class="step-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2.5"/><circle cx="12" cy="13.5" r="3.5"/><path d="M8.5 7l1.5-3h4l1.5 3"/></svg></span><span class="step-num">06</span></div>
-          <span class="step-phase">Selling</span>
-          <h3>Shoot it on arrival</h3>
-          <p>Your team walks round the car with the AutoPivot app. An outline and a level guide line up each of the eight angles.</p>
-        </li>
-        <li class="step">
-          <div class="step-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v9a7 7 0 0 0 7 7h9"/><path d="M4 4h16v16"/><path d="M9 15h6"/></svg></span><span class="step-num">07</span></div>
-          <span class="step-phase">Selling</span>
-          <h3>Finish every photo</h3>
-          <p>AutoPivot cuts the car out, places it on your showroom backdrop, evens out the lighting and blurs the number plate.</p>
-        </li>
-        <li class="step">
-          <div class="step-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8.5 8h7M8.5 12h7M8.5 16h4"/></svg></span><span class="step-num">08</span></div>
-          <span class="step-phase">Selling</span>
-          <h3>List and sell</h3>
-          <p>Each car gets a listing with its photos. Redo a shot, add more later, and archive the listing when the car sells.</p>
-        </li>
-      </ol>
+      <div class="flow">
+        <section class="half" aria-labelledby="half-buy">
+          <div class="half-head">
+            <span class="tag">Step 1 · Buying</span>
+            <h3 id="half-buy">Import search</h3>
+            <p>In the web portal</p>
+          </div>
+          <ol>
+            <li><span class="n">01</span><div><b>Search</b><span>Goo-net dealer stock, Japan Car Direct auctions and Prestige Motorsport lots, by make, model and year.</span></div></li>
+            <li><span class="n">02</span><div><b>Read and translate</b><span>AI pulls out 15+ details per car. <code lang="ja">328万円</code> and <code lang="ja">3.8万km</code> become plain numbers.</span></div></li>
+            <li><span class="n">03</span><div><b>Check the auction sheet</b><span>Grades, damage codes and history translated; risky cars get a repair allowance.</span></div></li>
+            <li><span class="n">04</span><div><b>Cost it to the road</b><span>Import duty, GST, luxury car tax and Victorian on-road costs.</span></div></li>
+            <li><span class="n">05</span><div><b>Price the resale</b><span>From Australian listings and your own sales, with a confidence score.</span></div></li>
+          </ol>
+        </section>
+        <div class="bridge" role="group" aria-label="Between buying and selling">
+          <svg class="arrow side" viewBox="0 0 16 34" aria-hidden="true"><path d="M8 1v30M2 25l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="step-pill">You bid and buy</span>
+          <small>AutoPivot never bids for you</small>
+          <svg class="arrow" viewBox="0 0 16 34" aria-hidden="true"><path d="M8 1v30M2 25l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="step-pill solid">Car arrives</span>
+          <small>One button starts its photo listing</small>
+          <svg class="arrow side" viewBox="0 0 16 34" aria-hidden="true"><path d="M8 1v30M2 25l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <section class="half" aria-labelledby="half-sell">
+          <div class="half-head">
+            <span class="tag">Step 2 · Selling</span>
+            <h3 id="half-sell">Photo studio</h3>
+            <p>On the phone, finished automatically</p>
+          </div>
+          <ol>
+            <li><span class="n">06</span><div><b>Shoot it on arrival</b><span>The app's outline and level guide line up all eight angles.</span></div></li>
+            <li><span class="n">07</span><div><b>Finish every photo</b><span>Car placed on your showroom backdrop, lighting evened, plate blurred.</span></div></li>
+            <li><span class="n">08</span><div><b>List and sell</b><span>Redo a shot, add more later, archive the listing when it sells.</span></div></li>
+          </ol>
+          <div class="half-photos">
+            <figure><img src="media/rav4-lot.jpg" alt="A RAV4 photographed on a car park" width="1080" height="608" loading="lazy"><figcaption>On the lot</figcaption></figure>
+            <figure><img src="media/rav4-studio.jpg" alt="The same RAV4 finished on the studio backdrop" width="1448" height="1086" loading="lazy"><figcaption>Finished by AutoPivot</figcaption></figure>
+          </div>
+        </section>
+      </div>
+      <div class="base" role="group" aria-label="Shared by both halves">
+        <span class="tag">Shared by both halves</span>
+        <ul class="parts">
+          <li><span>Phone app</span></li>
+          <li><span>Web portal</span></li>
+          <li class="core"><span>One login and one database</span></li>
+          <li><span>Import search engine</span></li>
+        </ul>
+        <p>Your team, cost settings, backdrops, cars and photos live in one place, and each dealership sees only its own.</p>
+      </div>
     </div>
   </section>
 
@@ -634,7 +679,7 @@ body { margin: 0; }
           <p class="eyebrow">The dashboard</p>
           <h2 id="deals-title">Every car ranked by what it would make you.</h2>
         </div>
-        <p class="sec-intro">Four example cars from four sources. The R34 shows why the full driveaway cost matters: luxury car tax and Victorian duty turn a A$265,000 purchase into a loss.</p>
+        <p class="sec-intro">Four example cars. The R34 shows why the full cost matters: taxes and duty turn a A$265,000 purchase into a loss.</p>
       </div>
       <div class="dash">
         <div class="dash-bar"><b>Sorted by estimated profit</b><span>Example data · ¥98 = A$1</span></div>
@@ -672,7 +717,7 @@ body { margin: 0; }
           <div class="profit-cell"><span class="profit-val down">−A$10,957</span><span class="pill pill-warn">Low confidence</span></div>
         </div>
       </div>
-      <p class="dash-note">Example figures for illustration. Japan Car Direct lots often show no price before the auction; AutoPivot doesn't treat an opening bid as a price, so you add your intended bid to see the profit.</p>
+      <p class="dash-note">Example figures. Auction lots often have no price until they sell, so you enter the bid you'd pay to see the profit.</p>
     </div>
   </section>
 
@@ -683,7 +728,7 @@ body { margin: 0; }
           <p class="eyebrow">Profit calculator</p>
           <h2 id="calc-title">The same sums the agent runs on every car.</h2>
         </div>
-        <p class="sec-intro">Change any figure to see the landed cost, the Victorian driveaway cost and your profit move. The example is the 2017 Alphard Hybrid from the dashboard.</p>
+        <p class="sec-intro">Change any figure and watch the costs and profit move. The example is the 2017 Alphard Hybrid above.</p>
       </div>
 
       <div class="calc">
@@ -710,66 +755,79 @@ body { margin: 0; }
               </label>
             </div>
           </fieldset>
-          <fieldset>
-            <legend>Shipping and border</legend>
-            <div class="grid-2">
-              <label class="f" for="c-freight">Ocean freight
-                <span class="in"><span class="u">A$</span><input id="c-freight" type="number" inputmode="numeric" min="0" step="50" value="1800"></span>
-              </label>
-              <label class="f" for="c-ins">Marine insurance <small>Percent of FOB value</small>
-                <span class="in"><input id="c-ins" type="number" inputmode="decimal" min="0" max="100" step="0.1" value="1.5"><span class="u">%</span></span>
-              </label>
-            </div>
-            <label class="check" for="c-origin"><input id="c-origin" type="checkbox" checked> <span><b>Proof of Japanese origin.</b> 0% customs duty under the Japan–Australia trade agreement. Untick for the standard 5%.</span></label>
-          </fieldset>
-          <fieldset>
-            <legend>Arrival and compliance</legend>
-            <div class="grid-2">
-              <label class="f" for="c-wharf">Wharf handling
-                <span class="in"><span class="u">A$</span><input id="c-wharf" type="number" inputmode="numeric" min="0" step="10" value="450"></span>
-              </label>
-              <label class="f" for="c-broker">Customs brokerage
-                <span class="in"><span class="u">A$</span><input id="c-broker" type="number" inputmode="numeric" min="0" step="10" value="300"></span>
-              </label>
-              <label class="f" for="c-bio">Biosecurity
-                <span class="in"><span class="u">A$</span><input id="c-bio" type="number" inputmode="numeric" min="0" step="10" value="250"></span>
-              </label>
-              <label class="f" for="c-adr">ADR compliance work
-                <span class="in"><span class="u">A$</span><input id="c-adr" type="number" inputmode="numeric" min="0" step="50" value="2500"></span>
-              </label>
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend>Auction sheet and repairs</legend>
-            <div class="grid-3">
-              <label class="f" for="c-grade">Exterior grade
-                <select id="c-grade">
-                  <option>S</option><option>6</option><option>5</option><option>4.5</option><option selected>4</option><option>3.5</option><option>3</option><option>2</option><option>1</option><option>R</option><option>RA</option>
-                </select>
-              </label>
-              <label class="f" for="c-int">Interior grade
-                <select id="c-int"><option>A</option><option selected>B</option><option>C</option><option>D</option></select>
-              </label>
-              <label class="f" for="c-codes">Damage codes
-                <span class="in"><input id="c-codes" type="number" inputmode="numeric" min="0" max="20" step="1" value="2"></span>
-              </label>
-            </div>
-            <div class="grid-2" style="margin-top: 14px">
-              <label class="f" for="c-repairs">Known repairs
-                <span class="in"><span class="u">A$</span><input id="c-repairs" type="number" inputmode="numeric" min="0" step="50" value="600"></span>
-              </label>
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend>On the road in Victoria</legend>
-            <div class="grid-2">
-              <label class="f" for="c-rego">Registration, TAC and plates
-                <span class="in"><span class="u">A$</span><input id="c-rego" type="number" inputmode="numeric" min="0" step="10" value="1500"></span>
-              </label>
-            </div>
-            <label class="check" for="c-fe"><input id="c-fe" type="checkbox" checked> <span><b>Fuel-efficient car</b> (hybrid or EV). Uses the higher luxury car tax threshold and the green-car duty rate.</span></label>
-            <label class="check" for="c-old"><input id="c-old" type="checkbox"> <span><b>4WD or over 15 years old.</b> Raises the roadworthy estimate.</span></label>
-          </fieldset>
+          <p class="fold-note">The costs below start at typical figures. Open a group to change them.</p>
+          <details class="fold">
+            <summary><b>Shipping and border</b><small>Freight, insurance, import duty</small></summary>
+            <fieldset>
+              <legend class="visually-hidden">Shipping and border</legend>
+              <div class="grid-2">
+                <label class="f" for="c-freight">Ocean freight
+                  <span class="in"><span class="u">A$</span><input id="c-freight" type="number" inputmode="numeric" min="0" step="50" value="1800"></span>
+                </label>
+                <label class="f" for="c-ins">Marine insurance <small>Percent of FOB value</small>
+                  <span class="in"><input id="c-ins" type="number" inputmode="decimal" min="0" max="100" step="0.1" value="1.5"><span class="u">%</span></span>
+                </label>
+              </div>
+              <label class="check" for="c-origin"><input id="c-origin" type="checkbox" checked> <span><b>Proof of Japanese origin.</b> 0% customs duty under the Japan–Australia trade agreement. Untick for the standard 5%.</span></label>
+            </fieldset>
+          </details>
+          <details class="fold">
+            <summary><b>Arrival and compliance</b><small>Wharf, broker, biosecurity, ADR</small></summary>
+            <fieldset>
+              <legend class="visually-hidden">Arrival and compliance</legend>
+              <div class="grid-2">
+                <label class="f" for="c-wharf">Wharf handling
+                  <span class="in"><span class="u">A$</span><input id="c-wharf" type="number" inputmode="numeric" min="0" step="10" value="450"></span>
+                </label>
+                <label class="f" for="c-broker">Customs brokerage
+                  <span class="in"><span class="u">A$</span><input id="c-broker" type="number" inputmode="numeric" min="0" step="10" value="300"></span>
+                </label>
+                <label class="f" for="c-bio">Biosecurity
+                  <span class="in"><span class="u">A$</span><input id="c-bio" type="number" inputmode="numeric" min="0" step="10" value="250"></span>
+                </label>
+                <label class="f" for="c-adr">ADR compliance work
+                  <span class="in"><span class="u">A$</span><input id="c-adr" type="number" inputmode="numeric" min="0" step="50" value="2500"></span>
+                </label>
+              </div>
+            </fieldset>
+          </details>
+          <details class="fold">
+            <summary><b>Auction sheet and repairs</b><small>Grades, damage codes, repairs</small></summary>
+            <fieldset>
+              <legend class="visually-hidden">Auction sheet and repairs</legend>
+              <div class="grid-3">
+                <label class="f" for="c-grade">Exterior grade
+                  <select id="c-grade">
+                    <option>S</option><option>6</option><option>5</option><option>4.5</option><option selected>4</option><option>3.5</option><option>3</option><option>2</option><option>1</option><option>R</option><option>RA</option>
+                  </select>
+                </label>
+                <label class="f" for="c-int">Interior grade
+                  <select id="c-int"><option>A</option><option selected>B</option><option>C</option><option>D</option></select>
+                </label>
+                <label class="f" for="c-codes">Damage codes
+                  <span class="in"><input id="c-codes" type="number" inputmode="numeric" min="0" max="20" step="1" value="2"></span>
+                </label>
+              </div>
+              <div class="grid-2" style="margin-top: 14px">
+                <label class="f" for="c-repairs">Known repairs
+                  <span class="in"><span class="u">A$</span><input id="c-repairs" type="number" inputmode="numeric" min="0" step="50" value="600"></span>
+                </label>
+              </div>
+            </fieldset>
+          </details>
+          <details class="fold">
+            <summary><b>On the road in Victoria</b><small>Registration, fuel-efficient, 4WD</small></summary>
+            <fieldset>
+              <legend class="visually-hidden">On the road in Victoria</legend>
+              <div class="grid-2">
+                <label class="f" for="c-rego">Registration, TAC and plates
+                  <span class="in"><span class="u">A$</span><input id="c-rego" type="number" inputmode="numeric" min="0" step="10" value="1500"></span>
+                </label>
+              </div>
+              <label class="check" for="c-fe"><input id="c-fe" type="checkbox" checked> <span><b>Fuel-efficient car</b> (hybrid or EV). Uses the higher luxury car tax threshold and the green-car duty rate.</span></label>
+              <label class="check" for="c-old"><input id="c-old" type="checkbox"> <span><b>4WD or over 15 years old.</b> Raises the roadworthy estimate.</span></label>
+            </fieldset>
+          </details>
           <fieldset>
             <legend>Resale in Australia</legend>
             <div class="comps" id="comps">
@@ -835,7 +893,7 @@ body { margin: 0; }
           </details>
         </div>
       </div>
-      <p class="calc-note">Example figures. Customs duty is charged on the customs value (FOB) and import GST on the value of the taxable importation, as the Australian Border Force sets out. Luxury car tax uses the 2026–27 thresholds and Victorian duty uses the current bands, both applied to the landed cost. Freight, insurance, compliance and repair figures are estimates you can change in your dealership cost settings. This is decision support, not a quote.</p>
+      <p class="calc-note">Example figures. Duty, GST, luxury car tax (2026–27 thresholds) and Victorian duty follow the published rules; freight, insurance, compliance and repairs are estimates you can change. Decision support, not a quote.</p>
     </div>
   </section>
 
@@ -844,7 +902,7 @@ body { margin: 0; }
       <div>
         <p class="eyebrow">Auction sheets</p>
         <h2 id="sheets-title">Japanese auction sheets, read and priced.</h2>
-        <p class="sec-intro" style="margin-top: 16px">The agent translates each sheet and turns condition risk into a dollar allowance, so a cheap car with a poor sheet doesn't look like a bargain.</p>
+        <p class="sec-intro" style="margin-top: 16px">Each sheet is translated and its condition priced, so a cheap car with a poor sheet doesn't look like a bargain.</p>
         <ul class="risk-list" aria-label="How condition becomes a repair allowance">
           <li><span>Exterior grade R, RA, 1 or 2</span><b>+A$2,500</b></li>
           <li><span>Exterior grade 3 or 3.5</span><b>+A$1,200</b></li>
@@ -913,7 +971,7 @@ body { margin: 0; }
     <div class="wrap sec">
       <p class="eyebrow">Built for Australia</p>
       <h2 id="rules-title">Australian import rules, already in the maths.</h2>
-      <p class="sec-intro" style="margin-top: 16px; max-width: 60ch">Each official charge is calculated from the published rule and labelled with where it comes from. Estimates and your own inputs are labelled too, so you can see exactly what to check.</p>
+      <p class="sec-intro" style="margin-top: 16px; max-width: 60ch">Every official charge comes from the published rule and is labelled, as are estimates and your own figures, so you know exactly what to check.</p>
       <ul class="rule-grid">
         <li><small>Customs duty · ABF</small><b>5% or 0%</b><span>On the FOB value. 0% for Japanese-built cars with proof of origin.</span></li>
         <li><small>Import GST · ABF</small><b>10%</b><span>Of the value of the taxable importation: FOB, duty, freight and insurance.</span></li>
@@ -934,7 +992,7 @@ body { margin: 0; }
           <p class="eyebrow">Photo studio</p>
           <h2 id="photos-title">Studio listing photos, shot on a phone.</h2>
         </div>
-        <p class="sec-intro">When a car reaches your lot, your team walks round it with the AutoPivot app. AutoPivot finds the car in each shot, places it on your dealership's backdrop, evens out the lighting and blurs the plate. Finished photos appear on the listing as each one is ready.</p>
+        <p class="sec-intro">Your team walks round the car with the AutoPivot app. AutoPivot puts it on your backdrop, evens the lighting and blurs the plate, and each photo appears on the listing when it's ready.</p>
       </div>
       <div class="studio-row">
         <figure class="phone">
@@ -959,7 +1017,7 @@ body { margin: 0; }
         </div>
       </div>
       <ul class="feat-grid">
-        <li class="feat"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2.5"/><circle cx="12" cy="13.5" r="3.5"/><path d="M8.5 7l1.5-3h4l1.5 3"/></svg></span><h3>Guided capture</h3><p>An outline shows where the car should sit for each of eight angles, a level keeps the phone straight, and every shot is checked for blur, glare and a cut-off car.</p></li>
+        <li class="feat"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2.5"/><circle cx="12" cy="13.5" r="3.5"/><path d="M8.5 7l1.5-3h4l1.5 3"/></svg></span><h3>Guided capture</h3><p>An outline and a level line up eight angles, and every shot is checked for blur, glare and a cut-off car.</p></li>
         <li class="feat"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v9a7 7 0 0 0 7 7h9"/><path d="M4 4h16v16"/><path d="M9 15h6"/></svg></span><h3>Automatic processing</h3><p>The car is cut out and placed on your backdrop with realistic tyre contact and shadow. The plate is blurred, pixelated or covered.</p></li>
         <li class="feat"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8.5 8h7M8.5 12h7M8.5 16h4"/></svg></span><h3>Tidy listings</h3><p>Every car gets a listing with its details and photos. Redo one shot, keep an original, add photos later or archive it when it sells.</p></li>
         <li class="feat"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 5.5a3 3 0 0 1 0 5.5M18 14.5c1.8.8 3 2.6 3 4.5"/></svg></span><h3>Built for teams</h3><p>Administrators add staff and reset passwords. Everyone sees the same listings, and the app locks with Face ID or a fingerprint.</p></li>
