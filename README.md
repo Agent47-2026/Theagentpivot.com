@@ -1,6 +1,6 @@
-# AgentPivot website
+# AutoPivot website
 
-Marketing site for AgentPivot, which finds Japanese cars worth importing to Australia. It translates auction sheets, works out the landed and Victorian driveaway cost, and checks Australian resale prices.
+Marketing site for AutoPivot, which finds Japanese cars worth importing to Australia. It translates auction sheets, works out the landed and Victorian driveaway cost, and checks Australian resale prices.
 
 It is a single static page (`index.html`) with its images and videos in `media/`, hosted with GitHub Pages from the `main` branch.
 
