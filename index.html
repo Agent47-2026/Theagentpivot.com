@@ -1,0 +1,1207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AgentPivot</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="AgentPivot">
+<meta property="og:description" content="AgentPivot finds Japanese cars worth importing to Australia: it translates auction sheets, works out the landed and Victorian driveaway cost, and checks Australian resale prices.">
+<meta property="og:image" content="https://agent47-2026.github.io/Theagentpivot.com/media/alphard-gf.jpg">
+<meta property="og:url" content="https://agent47-2026.github.io/Theagentpivot.com/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="description" content="AgentPivot finds Japanese cars worth importing to Australia: it translates auction sheets, works out the landed and Victorian driveaway cost, and checks Australian resale prices.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:wght@400..700&family=Noto+Sans+JP:wght@400;700&display=swap">
+<style>
+/* Layout: "Japan listing to Australian profit". Light only, indigo and sakura. Off-white and blush
+   bands on a 1200px column. The hero sets a real import on a sakura sun with its deal card; the
+   page then follows the product: sources, pipeline, ranked dashboard, profit calculator, auction
+   sheet, Australian rules over real port footage, AI photo preview. */
+:root {
+  color-scheme: light;
+  --bg: #FCFAFB;
+  --paper: #F7EFF3;
+  --card: #FFFFFF;
+  --ink: #1A2238;
+  --muted: #5A6278;
+  --line: #E6DCE2;
+  --primary: #233A6B;
+  --primary-2: #3A5A9B;
+  --primary-wash: #ECEFF8;
+  --accent: #C23B62;
+  --accent-dark: #A42E50;
+  --accent-wash: #FBE8EE;
+  --sun: #F3C6D4;
+  --good: #157A47;
+  --good-wash: #E6F4EC;
+  --bad: #B3261E;
+  --bad-wash: #FCE9E7;
+  --warn: #9A5300;
+  --warn-wash: #FDF1E2;
+  --on-primary: #FFFFFF;
+  --on-primary-2: #C3CDE6;
+
+  /* Driveaway breakdown series, validated for CVD separation on white */
+  --c-car: #1F5FBF;
+  --c-ship: #EB6834;
+  --c-tax: #1BAF7A;
+  --c-arrive: #EDA100;
+  --c-road: #E87BA4;
+
+  --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --f-jp: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+
+  --s-xs: .8125rem;
+  --s-sm: .9375rem;
+  --s-md: 1.0625rem;
+  --s-lg: 1.25rem;
+  --s-2xl: clamp(1.95rem, 1.3rem + 2.6vw, 3.1rem);
+  --s-hero: clamp(2.3rem, 1.2rem + 4.2vw, 4.25rem);
+
+  --wrap: 1200px;
+  --radius: 10px;
+  --shadow: 0 24px 48px -24px rgba(26, 34, 56, .38);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: var(--s-md);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 60; background: var(--bg); }
+a { color: inherit; }
+img, video { display: block; max-width: 100%; }
+:focus-visible { outline: 3px solid var(--primary-2); outline-offset: 3px; border-radius: 4px; }
+[lang="ja"] { font-family: var(--f-jp); }
+section[id] { scroll-margin-top: 76px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.num, .tab { font-variant-numeric: tabular-nums; }
+
+.wrap {
+  width: 100%;
+  max-width: calc(var(--wrap) + 64px);
+  margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+@media (min-width: 720px) {
+  .wrap { padding-left: max(32px, env(safe-area-inset-left, 0px)); padding-right: max(32px, env(safe-area-inset-right, 0px)); }
+}
+.sec { padding-block: clamp(56px, 8vw, 100px); }
+.band-paper { background: var(--paper); }
+
+/* Type */
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; color: var(--primary); }
+h1 { font-weight: 850; font-stretch: 116%; font-size: var(--s-hero); line-height: 1.02; letter-spacing: -.028em; margin-top: 16px; }
+h1 .hl { color: var(--accent); }
+h2 { font-weight: 800; font-stretch: 112%; font-size: var(--s-2xl); line-height: 1.06; letter-spacing: -.02em; margin-top: 12px; }
+h3 { font-weight: 800; font-stretch: 108%; font-size: var(--s-lg); line-height: 1.2; letter-spacing: -.01em; }
+.eyebrow { margin: 0; display: inline-flex; align-items: center; gap: 10px; font: 500 var(--s-xs)/1.3 var(--f-mono); letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
+.eyebrow::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); flex: none; }
+.sec-head { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 20px 48px; align-items: end; margin-bottom: clamp(28px, 4vw, 48px); }
+.sec-intro { margin: 0; color: var(--muted); max-width: 56ch; }
+
+/* Buttons and pills */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: 600 var(--s-sm)/1 var(--f-body); padding: 14px 20px; border-radius: 8px; border: 1.5px solid transparent; text-decoration: none; cursor: pointer; transition: background-color .15s ease, transform .15s ease; }
+.btn:hover { transform: translateY(-1px); }
+.btn-accent { background: var(--accent); color: #FFFFFF; }
+.btn-accent:hover { background: var(--accent-dark); }
+.btn-outline { background: var(--card); color: var(--primary); border-color: var(--primary); }
+.btn-outline:hover { background: var(--primary-wash); }
+.btn-sm { padding: 10px 14px; }
+.pill { display: inline-flex; align-items: center; gap: 6px; font: 600 12px/1 var(--f-body); padding: 6px 10px; border-radius: 999px; white-space: nowrap; }
+.pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.pill-good { background: var(--good-wash); color: var(--good); }
+.pill-warn { background: var(--warn-wash); color: var(--warn); }
+.pill-bad { background: var(--bad-wash); color: var(--bad); }
+.pill-info { background: var(--primary-wash); color: var(--primary); }
+.pill-accent { background: var(--accent); color: #FFFFFF; }
+.pill-accent::before { background: #FFFFFF; }
+.chip { display: inline-block; font: 500 11px/1 var(--f-mono); letter-spacing: .04em; padding: 4px 6px; border-radius: 4px; white-space: nowrap; }
+.chip-rule { background: var(--primary-wash); color: var(--primary); }
+.chip-est { background: var(--warn-wash); color: var(--warn); }
+.chip-you { background: var(--accent-wash); color: var(--accent-dark); }
+
+/* Header */
+.site-head { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50; background: rgba(252, 250, 251, .94); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.head-row { display: flex; align-items: center; gap: 24px; min-height: 64px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; font: 800 1.2rem/1 var(--f-display); font-stretch: 115%; letter-spacing: -.015em; text-decoration: none; color: var(--primary); }
+.logo { width: 28px; height: 28px; flex: none; }
+.head-right { margin-left: auto; display: flex; align-items: center; gap: 28px; }
+.nav-links { display: flex; gap: 22px; list-style: none; padding: 0; margin: 0; }
+.nav-links a { text-decoration: none; color: var(--muted); font-size: var(--s-sm); font-weight: 500; }
+.nav-links a:hover { color: var(--primary); }
+
+/* Hero */
+.hero { overflow-x: clip; }
+.hero-grid { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap: clamp(32px, 5vw, 72px); align-items: center; padding-block: clamp(40px, 6vw, 80px) clamp(56px, 7vw, 96px); }
+.lede { font-size: var(--s-lg); line-height: 1.5; color: var(--muted); margin: 22px 0 0; max-width: 42ch; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.ticks { list-style: none; padding: 0; margin: 28px 0 0; display: grid; gap: 10px; }
+.ticks li { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 10px; font-size: var(--s-sm); font-weight: 500; }
+.ticks li::before {
+  content: ""; width: 18px; height: 18px; margin-top: .1em; border-radius: 50%;
+  background: var(--good-wash) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M5 9.3l2.6 2.5L13 6.4' fill='none' stroke='%23157A47' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 18px no-repeat;
+}
+.hero-visual { position: relative; padding-bottom: 72px; }
+.hero-visual::before { content: ""; position: absolute; z-index: 0; width: min(80%, 460px); aspect-ratio: 1 / 1; border-radius: 50%; background: var(--sun); top: -8%; right: -10%; }
+.hero-photo { position: relative; z-index: 1; margin: 0; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); aspect-ratio: 4 / 3; max-width: 100%; }
+.hero-photo img { width: 100%; height: 100%; object-fit: cover; }
+.hero-photo figcaption { position: absolute; left: 12px; top: 12px; font: 600 11px/1 var(--f-mono); letter-spacing: .07em; text-transform: uppercase; padding: 7px 9px; border-radius: 4px; background: rgba(26, 34, 56, .72); color: #FFFFFF; }
+.deal {
+  position: absolute; z-index: 2; left: -24px; bottom: 0; width: min(360px, 88%);
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow);
+  padding: 16px 18px; display: grid; gap: 8px;
+}
+.deal-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.deal-top span { font: 600 11px/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.deal-name { margin: 0; font: 800 1.05rem/1.25 var(--f-display); font-stretch: 106%; color: var(--ink); }
+.deal dl { margin: 0; display: grid; gap: 0; }
+.deal dl div { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-top: 1px dashed var(--line); font-size: var(--s-sm); }
+.deal dt { color: var(--muted); }
+.deal dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+.deal .profit dd { color: var(--good); font: 850 1.3rem/1 var(--f-display); font-stretch: 108%; }
+
+/* Sources */
+.sources { border-block: 1px solid var(--line); background: var(--card); }
+.sources-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; padding-block: 18px; }
+.sources-row p { margin: 0; font: 500 var(--s-xs)/1.3 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.src-list { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; padding: 0; margin: 0; }
+.src-list li { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: var(--s-sm); padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); }
+.src-list small { font: 500 11px/1 var(--f-mono); color: var(--muted); }
+
+/* Pipeline */
+.steps-grid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.step { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; display: flex; flex-direction: column; gap: 10px; }
+.step-top { display: flex; align-items: center; justify-content: space-between; }
+.ico { width: 42px; height: 42px; border-radius: 9px; background: var(--primary-wash); color: var(--primary); display: grid; place-items: center; }
+.ico svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.step-num { font: 500 var(--s-xs)/1 var(--f-mono); color: var(--muted); letter-spacing: .06em; }
+.step p { margin: 0; color: var(--muted); font-size: var(--s-sm); }
+.step code { font: 500 .85em var(--f-jp); background: var(--paper); padding: 1px 5px; border-radius: 4px; color: var(--ink); }
+
+/* Dashboard preview */
+.dash { background: var(--card); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
+.dash-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px 16px; padding: 14px 18px; border-bottom: 1px solid var(--line); background: var(--bg); }
+.dash-bar b { font: 700 var(--s-sm)/1.2 var(--f-body); }
+.dash-bar span { font: 500 var(--s-xs)/1.3 var(--f-mono); color: var(--muted); }
+.dash-head, .deal-row { display: grid; grid-template-columns: 120px minmax(0, 1.6fr) repeat(3, minmax(0, .8fr)) minmax(0, 1fr); gap: 16px; align-items: center; padding: 12px 18px; }
+.dash-head { font: 500 11px/1.3 var(--f-mono); letter-spacing: .07em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--line); }
+.dash-head > :nth-child(n+3), .deal-row .v { text-align: right; }
+.deal-row { border-bottom: 1px solid var(--line); }
+.deal-row:last-child { border-bottom: 0; }
+.thumb { width: 120px; aspect-ratio: 3 / 2; border-radius: 6px; overflow: hidden; background: var(--paper); }
+.thumb img { width: 100%; height: 100%; object-fit: cover; }
+.car-name { font-weight: 700; line-height: 1.3; }
+.car-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; font: 500 12px/1.4 var(--f-mono); color: var(--muted); align-items: center; }
+.deal-row .v { font-weight: 600; font-variant-numeric: tabular-nums; }
+.deal-row .v small { display: block; font: 500 11px/1.3 var(--f-mono); color: var(--muted); }
+.deal-row .profit-cell { display: grid; justify-items: end; gap: 6px; }
+.profit-val { font: 850 1.15rem/1 var(--f-display); font-stretch: 106%; font-variant-numeric: tabular-nums; }
+.profit-val.up { color: var(--good); }
+.profit-val.down { color: var(--bad); }
+.dash-note { margin: 14px 0 0; font-size: var(--s-xs); color: var(--muted); }
+
+/* Calculator */
+.calc { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+.calc-form { display: grid; gap: 16px; }
+fieldset { margin: 0; padding: 18px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); min-width: 0; }
+legend { padding: 0 6px; margin-left: -6px; font: 600 var(--s-xs)/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--primary); }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; align-items: end; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-items: end; }
+.f { display: grid; gap: 6px; font-size: var(--s-sm); font-weight: 600; min-width: 0; }
+.f small { font-weight: 400; color: var(--muted); font-size: var(--s-xs); }
+.in { display: flex; align-items: stretch; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); overflow: hidden; }
+.in:focus-within { border-color: var(--primary-2); box-shadow: 0 0 0 3px rgba(58, 90, 155, .2); }
+.in .u { display: grid; place-items: center; padding: 0 10px; font: 500 var(--s-xs)/1 var(--f-mono); color: var(--muted); background: #F0E6EC; white-space: nowrap; }
+.in input, .f > select { flex: 1; min-width: 0; width: 100%; font: 500 var(--s-md)/1.2 var(--f-body); font-variant-numeric: tabular-nums; padding: 11px 10px; border: 0; background: transparent; color: var(--ink); }
+.in input:focus { outline: none; }
+.f > select { border: 1px solid var(--line); border-radius: 6px; background: var(--paper); }
+.check { display: flex; gap: 10px; align-items: flex-start; margin-top: 14px; font-size: var(--s-sm); color: var(--muted); }
+.check b { color: var(--ink); font-weight: 600; }
+.check input { width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--primary); flex: none; }
+
+.result { position: sticky; top: 88px; background: var(--card); border: 1.5px solid var(--primary); border-radius: var(--radius); overflow: hidden; }
+.result-head { padding: 20px 22px 18px; display: grid; gap: 14px; }
+.kv { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.kv div { background: var(--paper); border-radius: 8px; padding: 12px 14px; }
+.kv span { display: block; font: 500 11px/1.3 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.kv b { display: block; margin-top: 6px; font: 800 1.35rem/1.1 var(--f-display); font-stretch: 108%; color: var(--primary); font-variant-numeric: tabular-nums; }
+.kv .big { grid-column: 1 / -1; background: var(--good-wash); }
+.kv .big b { font-size: clamp(1.9rem, 1.5rem + 1.5vw, 2.5rem); color: var(--good); }
+.kv .big.loss { background: var(--bad-wash); }
+.kv .big.loss b { color: var(--bad); }
+.kv .big small { font: 500 var(--s-sm)/1.3 var(--f-body); color: var(--muted); margin-left: 6px; }
+.bar-wrap { position: relative; }
+.bar-label { display: flex; justify-content: space-between; font: 500 11px/1.3 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.bar { display: flex; gap: 2px; height: 16px; }
+.seg { height: 100%; min-width: 0; transition: flex-basis .35s ease; }
+.seg:first-child { border-radius: 4px 0 0 4px; }
+.seg:last-of-type { border-radius: 0 4px 4px 0; }
+.seg[data-k="car"] { background: var(--c-car); }
+.seg[data-k="ship"] { background: var(--c-ship); }
+.seg[data-k="tax"] { background: var(--c-tax); }
+.seg[data-k="arrive"] { background: var(--c-arrive); }
+.seg[data-k="road"] { background: var(--c-road); }
+.legend { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 6px; font-size: var(--s-xs); }
+.legend li { display: grid; grid-template-columns: 12px minmax(0, 1fr) auto auto; gap: 8px; align-items: center; font-variant-numeric: tabular-nums; }
+.legend li span:nth-child(4) { color: var(--muted); width: 46px; text-align: right; }
+.sw { width: 10px; height: 10px; border-radius: 2px; }
+.tip { position: absolute; bottom: calc(100% + 8px); transform: translateX(-50%); background: var(--ink); color: #FFFFFF; font: 500 12px/1.35 var(--f-body); padding: 7px 9px; border-radius: 6px; white-space: nowrap; pointer-events: none; font-variant-numeric: tabular-nums; z-index: 3; }
+details.lines { border-top: 1px solid var(--line); }
+details.lines summary { cursor: pointer; padding: 14px 22px; font-weight: 600; font-size: var(--s-sm); color: var(--primary); }
+.lines table { width: 100%; border-collapse: collapse; font-size: var(--s-sm); font-variant-numeric: tabular-nums; }
+.lines td, .lines th { padding: 8px 22px; border-top: 1px solid var(--line); text-align: left; font-weight: 400; vertical-align: middle; }
+.lines td:last-child, .lines th:last-child { text-align: right; white-space: nowrap; }
+.lines tr.sub th, .lines tr.sub td { font-weight: 700; background: var(--paper); }
+.lines td .chip { margin-left: 6px; }
+.calc-note { margin: 16px 0 0; font-size: var(--s-xs); color: var(--muted); max-width: 76ch; }
+.warns { list-style: none; margin: 0; padding: 0 22px 18px; display: grid; gap: 6px; font-size: var(--s-xs); }
+.warns li { display: grid; grid-template-columns: 16px minmax(0, 1fr); gap: 8px; color: var(--warn); }
+.warns li::before { content: "!"; display: grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; background: var(--warn-wash); font: 700 11px/1 var(--f-mono); }
+
+/* Comparables strip */
+.comps { position: relative; margin-top: 4px; }
+.comps svg { width: 100%; height: auto; overflow: visible; }
+.comps .axis { stroke: var(--line); stroke-width: 1; }
+.comps .band { fill: var(--primary-wash); }
+.comps .med { stroke: var(--primary); stroke-width: 2; }
+.comps .dot { fill: var(--primary-2); stroke: var(--card); stroke-width: 2; cursor: default; }
+.comps .dot:hover { fill: var(--accent); }
+.comps text { font: 500 11px var(--f-mono); fill: var(--muted); }
+.comps text.strong { fill: var(--primary); font-weight: 600; }
+
+/* Auction sheet */
+.sheet-wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
+.risk-list { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
+.risk-list li { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: var(--s-sm); }
+.risk-list b { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sheet { position: relative; background: #FFFFFF; border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); overflow: hidden; font-size: var(--s-sm); }
+.sheet-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; background: var(--primary); color: var(--on-primary); }
+.sheet-title { display: grid; gap: 2px; }
+.sheet-title [lang="ja"] { font-size: 11px; color: var(--on-primary-2); }
+.sheet-title b { font: 600 var(--s-xs)/1.2 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; }
+.lang-toggle { display: inline-flex; padding: 3px; border-radius: 999px; background: rgba(255, 255, 255, .12); }
+.lang-toggle button { font: 600 12px/1 var(--f-body); padding: 7px 11px; border-radius: 999px; border: 0; background: transparent; color: var(--on-primary-2); cursor: pointer; }
+.lang-toggle button[lang="ja"] { font-family: var(--f-jp); }
+.lang-toggle button[aria-pressed="true"] { background: #FFFFFF; color: var(--primary); }
+.sheet[data-lang="en"] .jp, .sheet[data-lang="ja"] .en { display: none; }
+.sheet-top { display: grid; grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 1fr)); border-bottom: 1px solid var(--line); }
+.sheet-top > div { padding: 12px 14px; }
+.sheet-top > div + div { border-left: 1px solid var(--line); }
+.lbl { display: flex; gap: 6px; align-items: baseline; font: 500 11px/1.2 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.lbl [lang="ja"] { font-size: 11px; letter-spacing: 0; text-transform: none; color: var(--ink); }
+.big-v { display: block; margin-top: 6px; font: 850 2rem/1 var(--f-display); font-stretch: 112%; color: var(--primary); }
+.lot { display: block; margin-top: 8px; font: 600 1.05rem/1.2 var(--f-mono); color: var(--ink); }
+.sheet-body { display: grid; grid-template-columns: minmax(0, 1fr) 132px; border-bottom: 1px solid var(--line); }
+.fields { margin: 0; padding: 4px 14px; }
+.fields > div { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 10px; padding: 7px 0; border-bottom: 1px dashed var(--line); }
+.fields > div:last-child { border-bottom: 0; }
+.fields dt { font: 500 11px/1.5 var(--f-mono); letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+.fields dt [lang="ja"] { margin-right: 6px; font-size: 11px; color: var(--ink); text-transform: none; letter-spacing: 0; }
+.fields dd { margin: 0; font-weight: 600; line-height: 1.4; }
+.damage { border-left: 1px solid var(--line); padding: 10px 8px; display: grid; align-content: start; gap: 6px; }
+.damage svg { width: 100%; max-width: 112px; height: auto; margin-inline: auto; }
+.damage .lbl { justify-content: center; }
+.dmg-body { fill: none; stroke: #8796A9; stroke-width: 1.4; }
+.dmg-glass { fill: #EEF2F7; stroke: #8796A9; stroke-width: 1.2; }
+.dmg-mark { fill: var(--accent-wash); stroke: var(--accent); stroke-width: 1.4; }
+.dmg-txt { font: 700 8px var(--f-mono); fill: var(--accent); text-anchor: middle; dominant-baseline: central; }
+.notes { position: relative; padding: 12px 88px 12px 14px; border-bottom: 1px solid var(--line); min-height: 86px; }
+.notes p { margin: 6px 0 0; line-height: 1.5; }
+.hanko { position: absolute; right: 16px; top: 50%; margin-top: -29px; width: 58px; height: 58px; border: 2.5px solid var(--accent); border-radius: 50%; color: var(--accent); display: grid; place-items: center; font: 700 13px/1 var(--f-jp); writing-mode: vertical-rl; letter-spacing: .05em; transform: rotate(-12deg); opacity: .88; pointer-events: none; }
+.verdict { padding: 14px; background: var(--primary-wash); display: grid; gap: 8px; }
+.verdict-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.agent-tag { font: 600 11px/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--primary-2); }
+.verdict p { margin: 0; font-weight: 500; }
+
+/* Rules band with video */
+.rules { position: relative; overflow: hidden; background: #10182B; color: #FFFFFF; }
+.rules video, .rules .poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .55; }
+.rules::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(16, 24, 43, .92) 0%, rgba(16, 24, 43, .72) 55%, rgba(16, 24, 43, .35) 100%); }
+.rules .wrap { position: relative; z-index: 1; }
+.rules h2 { color: #FFFFFF; }
+.rules .eyebrow { color: var(--on-primary-2); }
+.rules .sec-intro { color: #D5DCEC; }
+.rule-grid { list-style: none; padding: 0; margin: 32px 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: rgba(255, 255, 255, .16); border: 1px solid rgba(255, 255, 255, .16); border-radius: var(--radius); overflow: hidden; max-width: 980px; }
+.rule-grid li { background: rgba(16, 24, 43, .78); padding: 18px; display: grid; gap: 6px; align-content: start; }
+.rule-grid b { font: 850 1.6rem/1 var(--f-display); font-stretch: 110%; color: #FFFFFF; font-variant-numeric: tabular-nums; }
+.rule-grid span { font-size: var(--s-sm); color: #D5DCEC; }
+.rule-grid small { font: 500 11px/1.3 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--sun); }
+.video-credit { position: relative; z-index: 1; margin: 18px 0 0; font: 400 11px/1.4 var(--f-mono); color: #AEB8CF; }
+.video-toggle { margin-top: 20px; font: 600 12px/1 var(--f-body); padding: 8px 12px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .4); background: transparent; color: #FFFFFF; cursor: pointer; }
+
+/* AI photos */
+.photos { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
+.photo-stack { display: grid; gap: 14px; }
+.ba { --pos: 50%; position: relative; aspect-ratio: 3 / 2; max-width: 100%; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); background: var(--line); user-select: none; }
+.ba img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ba .before { clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
+.ba-line { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 2px; margin-left: -1px; background: #FFFFFF; pointer-events: none; }
+.ba-knob { position: absolute; top: 50%; left: var(--pos); width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 4px 12px rgba(26, 34, 56, .3); display: grid; place-items: center; pointer-events: none; color: var(--primary); }
+.ba-knob svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ba input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; }
+.ba input:focus-visible ~ .ba-knob { outline: 3px solid var(--primary-2); outline-offset: 2px; }
+.ba-tag { position: absolute; top: 12px; z-index: 2; font: 600 11px/1 var(--f-mono); letter-spacing: .07em; text-transform: uppercase; padding: 7px 9px; border-radius: 4px; pointer-events: none; }
+.ba-tag.l { left: 12px; background: rgba(26, 34, 56, .75); color: #FFFFFF; }
+.ba-tag.r { right: 12px; background: #FFFFFF; color: var(--primary); }
+.reel { position: relative; border-radius: var(--radius); overflow: hidden; aspect-ratio: 16 / 9; max-width: 100%; background: var(--line); }
+.reel video { width: 100%; height: 100%; object-fit: cover; }
+.reel span { position: absolute; left: 12px; bottom: 12px; font: 600 11px/1 var(--f-mono); letter-spacing: .07em; text-transform: uppercase; padding: 7px 9px; border-radius: 4px; background: rgba(26, 34, 56, .75); color: #FFFFFF; }
+.models { margin: 20px 0 0; padding: 14px 16px; border: 1px dashed var(--line); border-radius: 8px; font-size: var(--s-xs); color: var(--muted); background: var(--card); }
+.models b { color: var(--ink); }
+
+/* FAQ */
+.faq { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.8fr); gap: 24px clamp(32px, 5vw, 72px); align-items: start; }
+.faq-list { border-top: 1px solid var(--line); }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; gap: 16px; padding: 18px 0; font-weight: 600; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; font: 500 1.2rem/1 var(--f-mono); color: var(--accent); }
+.faq details[open] summary::after { content: "\2212"; }
+.faq details p { margin: -4px 0 20px; color: var(--muted); max-width: 62ch; }
+
+/* Early access */
+.join { position: relative; overflow: hidden; background: var(--primary); color: #FFFFFF; }
+.join > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .28; }
+.join::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(35, 58, 107, .97) 0%, rgba(35, 58, 107, .9) 50%, rgba(35, 58, 107, .75) 100%); }
+.join .wrap { position: relative; z-index: 1; }
+.join h2 { color: #FFFFFF; }
+.join .eyebrow, .join .sec-intro { color: var(--on-primary-2); }
+.demo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
+.demo-points { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 10px; }
+.demo-points li { display: grid; grid-template-columns: 14px minmax(0, 1fr); gap: 10px; }
+.demo-points li::before { content: ""; width: 10px; height: 10px; margin-top: .45em; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px rgba(255, 255, 255, .9); }
+.form { background: var(--card); color: var(--ink); border-radius: var(--radius); padding: clamp(20px, 3vw, 28px); display: grid; gap: 16px; }
+.form .f input, .form .f select { font: 400 var(--s-md)/1.3 var(--f-body); padding: 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); color: var(--ink); width: 100%; min-width: 0; }
+.form .f input:focus-visible, .form .f select:focus-visible { outline-offset: 0; border-color: var(--primary-2); }
+.form .btn { justify-self: start; }
+.form-status { margin: 0; min-height: 1.4em; font-size: var(--s-sm); color: var(--muted); }
+
+/* Footer */
+.site-foot { padding-block: 48px 32px; font-size: var(--s-sm); }
+.foot-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 2fr); gap: 40px; }
+.foot-grid p { margin: 12px 0 0; color: var(--muted); max-width: 40ch; }
+.foot-grid h4 { margin: 0 0 12px; font: 500 11px/1 var(--f-mono); letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
+.credits { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; font-size: var(--s-xs); color: var(--muted); }
+.credits a { color: var(--primary-2); }
+.foot-base { margin: 40px 0 0; padding-top: 20px; border-top: 1px solid var(--line); font: 400 var(--s-xs)/1.4 var(--f-mono); color: var(--muted); }
+
+/* Responsive */
+@media (max-width: 1000px) {
+  .steps-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rule-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dash-head { display: none; }
+  .deal-row { grid-template-columns: 120px minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "img name name" "img buy drive" "img resale profit"; row-gap: 8px; }
+  .deal-row .thumb { grid-area: img; align-self: start; }
+  .deal-row .who { grid-area: name; }
+  .deal-row .v-buy { grid-area: buy; }
+  .deal-row .v-drive { grid-area: drive; }
+  .deal-row .v-resale { grid-area: resale; }
+  .deal-row .profit-cell { grid-area: profit; }
+  .deal-row .v { text-align: left; }
+  .deal-row .profit-cell { justify-items: start; }
+  .deal-row .v small::before { content: attr(data-l) " "; }
+}
+@media (max-width: 900px) {
+  .hero-grid, .sec-head, .calc, .photos, .faq, .demo, .sheet-wrap, .foot-grid { grid-template-columns: minmax(0, 1fr); }
+  .hero-visual { max-width: 620px; }
+  .result { position: static; }
+}
+@media (max-width: 820px) { .nav-links { display: none; } }
+@media (max-width: 640px) {
+  .steps-grid, .grid-2, .grid-3, .rule-grid { grid-template-columns: minmax(0, 1fr); }
+  .hero-visual { padding-bottom: 0; }
+  .deal { position: relative; left: auto; bottom: auto; width: auto; margin-top: -40px; margin-inline: 12px; }
+  .hero-visual::before { width: 72%; right: -16%; top: -5%; }
+  .deal-row { grid-template-columns: 88px minmax(0, 1fr) minmax(0, 1fr); padding-inline: 14px; gap: 10px; }
+  .thumb { width: 88px; }
+}
+@media (max-width: 520px) {
+  .sheet-top { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sheet-top > div:first-child { grid-column: 1 / -1; border-bottom: 1px solid var(--line); }
+  .sheet-top > div:nth-child(2) { border-left: 0; }
+  .sheet-body { grid-template-columns: minmax(0, 1fr) 96px; }
+  .fields > div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .notes { padding-right: 74px; }
+  .hanko { right: 12px; width: 50px; height: 50px; margin-top: -25px; font-size: 12px; }
+  .kv { grid-template-columns: minmax(0, 1fr); }
+  .lines td, .lines th, .result-head, details.lines summary { padding-inline: 14px; }
+  .head-right .btn { padding: 9px 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+/* Base reset for hosting outside the artifact viewer */
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="#top">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+        <circle cx="16" cy="16" r="12.5" fill="none" stroke="#233A6B" stroke-width="3" stroke-dasharray="60 19" stroke-linecap="round" transform="rotate(-50 16 16)"/>
+        <circle cx="16" cy="16" r="5.5" fill="#C23B62"/>
+      </svg>
+      <span>AgentPivot</span>
+    </a>
+    <div class="head-right">
+      <nav aria-label="Main">
+        <ul class="nav-links">
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#deals">Deals</a></li>
+          <li><a href="#calculator">Profit calculator</a></li>
+          <li><a href="#sheets">Auction sheets</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+      <a class="btn btn-accent btn-sm" href="#join">Get early access</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Japanese imports for Australian dealers</p>
+        <h1>See the profit on a Japanese car <span class="hl">before you bid.</span></h1>
+        <p class="lede">AgentPivot reads Japanese auction and dealer listings, translates every auction sheet, works out the full landed and Victorian driveaway cost, and checks what the same car sells for in Australia.</p>
+        <div class="cta-row">
+          <a class="btn btn-accent" href="#join">Get early access</a>
+          <a class="btn btn-outline" href="#calculator">Try the profit calculator</a>
+        </div>
+        <ul class="ticks">
+          <li>Customs duty, import GST, luxury car tax and Victorian duty built in</li>
+          <li>Resale range from Australian comparables, with a confidence score</li>
+          <li>Every number labelled as an official rule, an estimate or your input</li>
+        </ul>
+      </div>
+      <div class="hero-visual">
+        <figure class="hero-photo">
+          <img src="media/alphard-gf.jpg" alt="Black Toyota Alphard Hybrid in a Japanese showroom" width="1600" height="1200">
+          <figcaption>Example import</figcaption>
+        </figure>
+        <div class="deal" aria-label="Example deal summary">
+          <div class="deal-top"><span>AgentPivot estimate</span><span class="pill pill-info">Medium confidence</span></div>
+          <p class="deal-name">2017 Toyota Alphard Hybrid G F</p>
+          <dl>
+            <div><dt>Price in Japan</dt><dd>¥3,280,000</dd></div>
+            <div><dt>Driveaway in Victoria</dt><dd>A$49,082</dd></div>
+            <div><dt>Resale, 7 comparables</dt><dd>A$58,990</dd></div>
+            <div class="profit"><dt>Estimated profit</dt><dd>+A$9,908</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sources" aria-label="Data sources">
+    <div class="wrap sources-row">
+      <p>Reads listings from</p>
+      <ul class="src-list">
+        <li>Goo-net <small>Japan dealers</small></li>
+        <li>Japan Car Direct <small>Auctions</small></li>
+        <li>Prestige Motorsport <small>Auction lots</small></li>
+        <li>Autotrader <small>Australian prices</small></li>
+        <li>Your sales records <small>CSV import</small></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band-paper" id="how" aria-labelledby="how-title">
+    <div class="wrap sec">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">How it works</p>
+          <h2 id="how-title">From a Japanese listing to a profit estimate in six steps.</h2>
+        </div>
+        <p class="sec-intro">You choose the make, model, year and source. The agent does the reading, translating and maths, then hands every car back to you for review. It never bids or buys on its own.</p>
+      </div>
+      <ol class="steps-grid">
+        <li class="step">
+          <div class="step-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg></span><span class="step-num">01</span></div>
+          <h3>Search</h3>
+          <p>Pick a make, model and year, then a source: Goo-net dealer stock, Japan Car Direct auctions or Prestige Motorsport lots.</p>
+        </li>
+        <li class="step">
+          <div class="step-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h9M8.5 3v2M6 5c0 4 3 7 6 8M11 5c-1 4-4 7-7 8"/><path d="M13 21l4-10 4 10M14.5 17.5h5"/></svg></span><span class="step-num">02</span></div>
+          <h3>Read and translate</h3>
+          <p>An AI model pulls out more than 15 details per car and translates them. Prices like <code lang="ja">328万円</code>, mileage like <code lang="ja">3.8万km</code> and Japanese era years become plain numbers.</p>
+        </li>
+        <li class="step">
+          <div class="step-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h5"/><circle cx="15.5" cy="16" r="2"/></svg></span><span class="step-num">03</span></div>
+          <h3>Check the auction sheet</h3>
+          <p>Exterior and interior grades, mileage warnings, damage codes and ownership history are translated, and risky cars get a repair allowance.</p>
+        </li>
+        <li class="step">
+          <div class="step-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="2.5" width="16" height="19" rx="2"/><path d="M8 7h8M8 11.5h2M12 11.5h2M8 15.5h2M12 15.5h2M16 11.5v4"/></svg></span><span class="step-num">04</span></div>
+          <h3>Cost it to the road</h3>
+          <p>Landed cost under Australian Border Force rules, then luxury car tax, Victorian motor vehicle duty, roadworthy and registration for the driveaway figure.</p>
+        </li>
+        <li class="step">
+          <div class="step-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20h18"/><path d="M6 16v-5M10 16V7M14 16v-3M18 16V5"/></svg></span><span class="step-num">05</span></div>
+          <h3>Price the resale</h3>
+          <p>Matching Australian listings and your own sales records give a likely sale price, a low to high range and a confidence score that explains itself.</p>
+        </li>
+        <li class="step">
+          <div class="step-top"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span><span class="step-num">06</span></div>
+          <h3>You decide</h3>
+          <p>The dashboard ranks every car by estimated profit. You review the numbers, refresh a listing when its price changes, and place bids yourself.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="deals" aria-labelledby="deals-title">
+    <div class="wrap sec">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">The dashboard</p>
+          <h2 id="deals-title">Every car ranked by what it would make you.</h2>
+        </div>
+        <p class="sec-intro">Four example cars from four sources. The R34 shows why the full driveaway cost matters: luxury car tax and Victorian duty turn a A$265,000 purchase into a loss.</p>
+      </div>
+      <div class="dash">
+        <div class="dash-bar"><b>Sorted by estimated profit</b><span>Example data · ¥98 = A$1</span></div>
+        <div class="dash-head" aria-hidden="true"><span></span><span>Car</span><span>Price in Japan</span><span>Driveaway (VIC)</span><span>Resale</span><span>Estimated profit</span></div>
+        <div class="deal-row">
+          <div class="thumb"><img src="media/supra-before.jpg" alt="Red Toyota Supra in a Japanese car park" loading="lazy" width="1600" height="1198"></div>
+          <div class="who"><div class="car-name">1996 Toyota Supra SZ (A80)</div><div class="car-meta">Goo-net · Grade 4, interior C <span class="pill pill-warn">Over 15 years old</span></div></div>
+          <div class="v v-buy">¥4,350,000<small data-l="Japan">A$44,388</small></div>
+          <div class="v v-drive">A$62,435<small data-l="Driveaway">incl. A$500 sheet allowance</small></div>
+          <div class="v v-resale">A$74,990<small data-l="Resale">3 comparables</small></div>
+          <div class="profit-cell"><span class="profit-val up">+A$12,555</span><span class="pill pill-warn">Low confidence</span></div>
+        </div>
+        <div class="deal-row">
+          <div class="thumb"><img src="media/alphard-x-before.jpg" alt="Silver Toyota Alphard on a wet road" loading="lazy" width="1600" height="789"></div>
+          <div class="who"><div class="car-name">2018 Toyota Alphard 2.5 X</div><div class="car-meta">Goo-net · Grade 4.5, interior B</div></div>
+          <div class="v v-buy">¥2,650,000<small data-l="Japan">A$27,041</small></div>
+          <div class="v v-drive">A$40,502<small data-l="Driveaway">no sheet allowance</small></div>
+          <div class="v v-resale">A$52,500<small data-l="Resale">9 comparables</small></div>
+          <div class="profit-cell"><span class="profit-val up">+A$11,998</span><span class="pill pill-good">High confidence</span></div>
+        </div>
+        <div class="deal-row">
+          <div class="thumb"><img src="media/alphard-gf.jpg" alt="Black Toyota Alphard Hybrid in a showroom" loading="lazy" width="1600" height="1200"></div>
+          <div class="who"><div class="car-name">2017 Toyota Alphard Hybrid G F</div><div class="car-meta">Japan Car Direct · Grade 4, interior B <span class="pill pill-info">2 damage codes</span></div></div>
+          <div class="v v-buy">¥3,280,000<small data-l="Japan">A$33,469</small></div>
+          <div class="v v-drive">A$49,082<small data-l="Driveaway">incl. A$800 sheet allowance</small></div>
+          <div class="v v-resale">A$58,990<small data-l="Resale">7 comparables</small></div>
+          <div class="profit-cell"><span class="profit-val up">+A$9,908</span><span class="pill pill-info">Medium confidence</span></div>
+        </div>
+        <div class="deal-row">
+          <div class="thumb"><img src="media/r34-brussels.jpg" alt="Midnight purple Nissan Skyline GT-R R34 on a showroom floor" loading="lazy" width="1600" height="901"></div>
+          <div class="who"><div class="car-name">2000 Nissan Skyline GT-R V-Spec (R34)</div><div class="car-meta">Prestige Motorsport · Grade 4.5, interior B <span class="pill pill-bad">Luxury car tax A$72,179</span></div></div>
+          <div class="v v-buy">¥26,000,000<small data-l="Japan">A$265,306</small></div>
+          <div class="v v-drive">A$405,957<small data-l="Driveaway">incl. A$26,964 VIC duty</small></div>
+          <div class="v v-resale">A$395,000<small data-l="Resale">2 comparables</small></div>
+          <div class="profit-cell"><span class="profit-val down">−A$10,957</span><span class="pill pill-warn">Low confidence</span></div>
+        </div>
+      </div>
+      <p class="dash-note">Example figures for illustration. Japan Car Direct lots often show no price before the auction; AgentPivot doesn't treat an opening bid as a price, so you add your intended bid to see the profit.</p>
+    </div>
+  </section>
+
+  <section class="band-paper" id="calculator" aria-labelledby="calc-title">
+    <div class="wrap sec">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">Profit calculator</p>
+          <h2 id="calc-title">The same sums the agent runs on every car.</h2>
+        </div>
+        <p class="sec-intro">Change any figure to see the landed cost, the Victorian driveaway cost and your profit move. The example is the 2017 Alphard Hybrid from the dashboard.</p>
+      </div>
+
+      <div class="calc">
+        <form class="calc-form" id="calc-form" novalidate>
+          <fieldset>
+            <legend>Car in Japan</legend>
+            <div class="grid-2">
+              <label class="f" for="c-jpy">Price in Japan
+                <span class="in"><span class="u">¥</span><input id="c-jpy" type="number" inputmode="numeric" min="0" step="10000" value="3280000"></span>
+              </label>
+              <label class="f" for="c-fx">Exchange rate <small>Yen per A$1. The agent loads today's rate.</small>
+                <span class="in"><span class="u">¥</span><input id="c-fx" type="number" inputmode="decimal" min="1" step="0.5" value="98"></span>
+              </label>
+            </div>
+            <div class="grid-3" style="margin-top: 14px">
+              <label class="f" for="c-agent">Agent fee
+                <span class="in"><span class="u">A$</span><input id="c-agent" type="number" inputmode="numeric" min="0" step="50" value="800"></span>
+              </label>
+              <label class="f" for="c-inland">Inland transport
+                <span class="in"><span class="u">A$</span><input id="c-inland" type="number" inputmode="numeric" min="0" step="10" value="250"></span>
+              </label>
+              <label class="f" for="c-export">Export paperwork
+                <span class="in"><span class="u">A$</span><input id="c-export" type="number" inputmode="numeric" min="0" step="10" value="150"></span>
+              </label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Shipping and border</legend>
+            <div class="grid-2">
+              <label class="f" for="c-freight">Ocean freight
+                <span class="in"><span class="u">A$</span><input id="c-freight" type="number" inputmode="numeric" min="0" step="50" value="1800"></span>
+              </label>
+              <label class="f" for="c-ins">Marine insurance <small>Percent of FOB value</small>
+                <span class="in"><input id="c-ins" type="number" inputmode="decimal" min="0" max="100" step="0.1" value="1.5"><span class="u">%</span></span>
+              </label>
+            </div>
+            <label class="check" for="c-origin"><input id="c-origin" type="checkbox" checked> <span><b>Proof of Japanese origin.</b> 0% customs duty under the Japan–Australia trade agreement. Untick for the standard 5%.</span></label>
+          </fieldset>
+          <fieldset>
+            <legend>Arrival and compliance</legend>
+            <div class="grid-2">
+              <label class="f" for="c-wharf">Wharf handling
+                <span class="in"><span class="u">A$</span><input id="c-wharf" type="number" inputmode="numeric" min="0" step="10" value="450"></span>
+              </label>
+              <label class="f" for="c-broker">Customs brokerage
+                <span class="in"><span class="u">A$</span><input id="c-broker" type="number" inputmode="numeric" min="0" step="10" value="300"></span>
+              </label>
+              <label class="f" for="c-bio">Biosecurity
+                <span class="in"><span class="u">A$</span><input id="c-bio" type="number" inputmode="numeric" min="0" step="10" value="250"></span>
+              </label>
+              <label class="f" for="c-adr">ADR compliance work
+                <span class="in"><span class="u">A$</span><input id="c-adr" type="number" inputmode="numeric" min="0" step="50" value="2500"></span>
+              </label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Auction sheet and repairs</legend>
+            <div class="grid-3">
+              <label class="f" for="c-grade">Exterior grade
+                <select id="c-grade">
+                  <option>S</option><option>6</option><option>5</option><option>4.5</option><option selected>4</option><option>3.5</option><option>3</option><option>2</option><option>1</option><option>R</option><option>RA</option>
+                </select>
+              </label>
+              <label class="f" for="c-int">Interior grade
+                <select id="c-int"><option>A</option><option selected>B</option><option>C</option><option>D</option></select>
+              </label>
+              <label class="f" for="c-codes">Damage codes
+                <span class="in"><input id="c-codes" type="number" inputmode="numeric" min="0" max="20" step="1" value="2"></span>
+              </label>
+            </div>
+            <div class="grid-2" style="margin-top: 14px">
+              <label class="f" for="c-repairs">Known repairs
+                <span class="in"><span class="u">A$</span><input id="c-repairs" type="number" inputmode="numeric" min="0" step="50" value="600"></span>
+              </label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>On the road in Victoria</legend>
+            <div class="grid-2">
+              <label class="f" for="c-rego">Registration, TAC and plates
+                <span class="in"><span class="u">A$</span><input id="c-rego" type="number" inputmode="numeric" min="0" step="10" value="1500"></span>
+              </label>
+            </div>
+            <label class="check" for="c-fe"><input id="c-fe" type="checkbox" checked> <span><b>Fuel-efficient car</b> (hybrid or EV). Uses the higher luxury car tax threshold and the green-car duty rate.</span></label>
+            <label class="check" for="c-old"><input id="c-old" type="checkbox"> <span><b>4WD or over 15 years old.</b> Raises the roadworthy estimate.</span></label>
+          </fieldset>
+          <fieldset>
+            <legend>Resale in Australia</legend>
+            <div class="comps" id="comps">
+              <svg viewBox="0 0 560 96" role="img" aria-label="Seven Australian comparable listings between A$53,990 and A$63,990. Median A$58,990, typical range A$55,960 to A$61,180.">
+                <line class="axis" x1="20" y1="52" x2="540" y2="52"/>
+                <rect class="band" x="167.1" y="34" width="193.9" height="36" rx="4"/>
+                <line class="med" x1="279.6" y1="28" x2="279.6" y2="76"/>
+                <text class="strong" x="279.6" y="18" text-anchor="middle">Median A$58,990</text>
+                <text x="20" y="92">A$52k</text>
+                <text x="540" y="92" text-anchor="end">A$66k</text>
+                <text x="264" y="92" text-anchor="middle">Typical range A$55,960 to A$61,180</text>
+                <circle class="dot" cx="93.9" cy="52" r="6" data-p="53990"/>
+                <circle class="dot" cx="150" cy="52" r="6" data-p="55500"/>
+                <circle class="dot" cx="235.4" cy="52" r="6" data-p="57800"/>
+                <circle class="dot" cx="279.6" cy="52" r="6" data-p="58990"/>
+                <circle class="dot" cx="313.4" cy="52" r="6" data-p="59900"/>
+                <circle class="dot" cx="372.9" cy="52" r="6" data-p="61500"/>
+                <circle class="dot" cx="465.3" cy="52" r="6" data-p="63990"/>
+              </svg>
+              <div class="tip" id="comp-tip" hidden></div>
+            </div>
+            <div class="grid-2" style="margin-top: 10px">
+              <label class="f" for="c-resale">Expected resale <small>Defaults to the median of 7 Australian comparables</small>
+                <span class="in"><span class="u">A$</span><input id="c-resale" type="number" inputmode="numeric" min="0" step="100" value="58990"></span>
+              </label>
+            </div>
+          </fieldset>
+        </form>
+
+        <div class="result" aria-live="polite">
+          <div class="result-head">
+            <div class="kv">
+              <div class="big" id="r-profit-box"><span>Estimated profit</span><b id="r-profit">+A$9,908</b><small id="r-margin">16.8% of resale</small></div>
+              <div><span>Landed cost</span><b id="r-landed">A$40,688</b></div>
+              <div><span>Driveaway in Victoria</span><b id="r-drive">A$49,082</b></div>
+            </div>
+            <div class="bar-wrap" id="bar-wrap">
+              <div class="bar-label"><span>Driveaway breakdown</span><span id="r-drive-2">A$49,082</span></div>
+              <div class="bar" id="bar" aria-hidden="true">
+                <span class="seg" data-k="car" style="flex-basis: 68.2%"></span>
+                <span class="seg" data-k="ship" style="flex-basis: 7.2%"></span>
+                <span class="seg" data-k="tax" style="flex-basis: 7.5%"></span>
+                <span class="seg" data-k="arrive" style="flex-basis: 10%"></span>
+                <span class="seg" data-k="road" style="flex-basis: 7.1%"></span>
+              </div>
+              <div class="tip" id="tip" hidden></div>
+              <ul class="legend">
+                <li><span class="sw" style="background: var(--c-car)"></span><span>Car purchase</span><span id="g-car">A$33,469</span><span id="gp-car">68.2%</span></li>
+                <li><span class="sw" style="background: var(--c-ship)"></span><span>Japan costs, freight and insurance</span><span id="g-ship">A$3,520</span><span id="gp-ship">7.2%</span></li>
+                <li><span class="sw" style="background: var(--c-tax)"></span><span>Customs duty and import GST</span><span id="g-tax">A$3,699</span><span id="gp-tax">7.5%</span></li>
+                <li><span class="sw" style="background: var(--c-arrive)"></span><span>Arrival, compliance and repairs</span><span id="g-arrive">A$4,900</span><span id="gp-arrive">10%</span></li>
+                <li><span class="sw" style="background: var(--c-road)"></span><span>Victorian on-road costs and LCT</span><span id="g-road">A$3,494</span><span id="gp-road">7.1%</span></li>
+              </ul>
+            </div>
+          </div>
+          <ul class="warns" id="warns"><li>2 damage codes add a A$800 repair allowance.</li></ul>
+          <details class="lines">
+            <summary>Every line, with where it comes from</summary>
+            <table>
+              <caption class="visually-hidden">Driveaway cost lines</caption>
+              <tbody id="lines"></tbody>
+            </table>
+          </details>
+        </div>
+      </div>
+      <p class="calc-note">Example figures. Customs duty is charged on the customs value (FOB) and import GST on the value of the taxable importation, as the Australian Border Force sets out. Luxury car tax uses the 2026–27 thresholds and Victorian duty uses the current bands, both applied to the landed cost. Freight, insurance, compliance and repair figures are estimates you can change in your dealership cost settings. This is decision support, not a quote.</p>
+    </div>
+  </section>
+
+  <section id="sheets" aria-labelledby="sheets-title">
+    <div class="wrap sec sheet-wrap">
+      <div>
+        <p class="eyebrow">Auction sheets</p>
+        <h2 id="sheets-title">Japanese auction sheets, read and priced.</h2>
+        <p class="sec-intro" style="margin-top: 16px">The agent translates each sheet and turns condition risk into a dollar allowance, so a cheap car with a poor sheet doesn't look like a bargain.</p>
+        <ul class="risk-list" aria-label="How condition becomes a repair allowance">
+          <li><span>Exterior grade R, RA, 1 or 2</span><b>+A$2,500</b></li>
+          <li><span>Exterior grade 3 or 3.5</span><b>+A$1,200</b></li>
+          <li><span>Interior grade C / D</span><b>+A$500 / +A$1,000</b></li>
+          <li><span>Each damage code, up to A$2,000</span><b>+A$400</b></li>
+          <li><span>Mileage warning on the sheet</span><b>+A$750</b></li>
+          <li><span>Accident, flood or fire history</span><b>+A$1,250</b></li>
+        </ul>
+      </div>
+      <article class="sheet" id="sheet" data-lang="en" aria-label="Example Japanese auction sheet with English translation">
+        <div class="sheet-bar">
+          <div class="sheet-title"><span lang="ja">オークション出品票</span><b>Auction sheet</b></div>
+          <div class="lang-toggle" role="group" aria-label="Sheet language">
+            <button type="button" data-lang="en" aria-pressed="true">English</button>
+            <button type="button" data-lang="ja" lang="ja" aria-pressed="false">日本語</button>
+          </div>
+        </div>
+        <div class="sheet-top">
+          <div><span class="lbl"><span lang="ja">出品番号</span>Lot</span><span class="lot">51846</span></div>
+          <div><span class="lbl"><span lang="ja">評価点</span>Grade</span><span class="big-v">4</span></div>
+          <div><span class="lbl"><span lang="ja">内装</span>Interior</span><span class="big-v">B</span></div>
+        </div>
+        <div class="sheet-body">
+          <dl class="fields">
+            <div><dt><span lang="ja">年式</span>Year</dt><dd><span class="en">2017</span><span class="jp" lang="ja">H29年</span></dd></div>
+            <div><dt><span lang="ja">車名</span>Model</dt><dd><span class="en">Toyota Alphard Hybrid G F package, 4WD</span><span class="jp" lang="ja">トヨタ アルファード ハイブリッド G Fパッケージ 4WD</span></dd></div>
+            <div><dt><span lang="ja">型式</span>Chassis</dt><dd>DAA-AYH30W</dd></div>
+            <div><dt><span lang="ja">排気量</span>Engine</dt><dd>2,493 cc</dd></div>
+            <div><dt><span lang="ja">走行</span>Odometer</dt><dd><span class="en">38,000 km, no warning</span><span class="jp" lang="ja">3.8万km</span></dd></div>
+            <div><dt><span lang="ja">装備</span>Options</dt><dd><span class="en">Factory navigation, dual power sliding doors, ETC toll unit, reverse camera</span><span class="jp" lang="ja">純正ナビ・両側パワスラ・ETC・Bカメラ</span></dd></div>
+          </dl>
+          <div class="damage">
+            <span class="lbl"><span lang="ja">展開図</span>Damage</span>
+            <svg viewBox="0 0 120 220" role="img" aria-label="Damage map: light scratch on rear bumper, small dent on left sliding door">
+              <rect class="dmg-body" x="14" y="38" width="7" height="28" rx="2"/>
+              <rect class="dmg-body" x="99" y="38" width="7" height="28" rx="2"/>
+              <rect class="dmg-body" x="14" y="160" width="7" height="28" rx="2"/>
+              <rect class="dmg-body" x="99" y="160" width="7" height="28" rx="2"/>
+              <rect class="dmg-body" x="22" y="12" width="76" height="198" rx="18"/>
+              <polygon class="dmg-glass" points="30,48 90,48 86,70 34,70"/>
+              <rect class="dmg-body" x="34" y="70" width="52" height="112" rx="6"/>
+              <polygon class="dmg-glass" points="36,182 84,182 86,196 34,196"/>
+              <line class="dmg-body" x1="22" y1="100" x2="34" y2="100"/>
+              <line class="dmg-body" x1="86" y1="100" x2="98" y2="100"/>
+              <circle class="dmg-mark" cx="22" cy="132" r="11"/><text class="dmg-txt" x="22" y="132">U1</text>
+              <circle class="dmg-mark" cx="60" cy="209" r="11"/><text class="dmg-txt" x="60" y="209">A1</text>
+            </svg>
+          </div>
+        </div>
+        <div class="notes">
+          <div class="hanko" lang="ja" aria-hidden="true">検査済</div>
+          <span class="lbl"><span lang="ja">検査員報告</span>Inspector's notes</span>
+          <p><span class="en">Light scratch on the rear bumper (A1). Small dent on the left sliding door (U1). One owner.</span><span class="jp" lang="ja">リアバンパー A1、左スライドドア U1。ワンオーナー。</span></p>
+        </div>
+        <div class="verdict">
+          <div class="verdict-head"><span class="agent-tag">AgentPivot reading</span><span class="pill pill-good">Good condition</span></div>
+          <p>Grade 4 is good condition with minor marks. The two damage codes add a A$800 repair allowance to the driveaway estimate.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="rules" aria-labelledby="rules-title">
+    <img class="poster" src="media/carrier-poster.jpg" alt="" aria-hidden="true">
+    <video id="rules-video" src="media/carrier.mp4" poster="media/carrier-poster.jpg" autoplay muted loop playsinline aria-hidden="true"></video>
+    <div class="wrap sec">
+      <p class="eyebrow">Built for Australia</p>
+      <h2 id="rules-title">Australian import rules, already in the maths.</h2>
+      <p class="sec-intro" style="margin-top: 16px; max-width: 60ch">Each official charge is calculated from the published rule and labelled with where it comes from. Estimates and your own inputs are labelled too, so you can see exactly what to check.</p>
+      <ul class="rule-grid">
+        <li><small>Customs duty · ABF</small><b>5% or 0%</b><span>On the FOB value. 0% for Japanese-built cars with proof of origin.</span></li>
+        <li><small>Import GST · ABF</small><b>10%</b><span>Of the value of the taxable importation: FOB, duty, freight and insurance.</span></li>
+        <li><small>Luxury car tax · ATO</small><b>33%</b><span>Above A$80,809, or A$91,661 for fuel-efficient cars, in 2026–27.</span></li>
+        <li><small>Motor vehicle duty · VIC</small><b>A$8.40–A$18</b><span>Per A$200 of value, in bands at A$80,809, A$100,000 and A$150,000.</span></li>
+        <li><small>Registration checks</small><b>RAV and VASS</b><span>Flags cars not yet on the RAV, modified or converted cars and cars over 15 years old.</span></li>
+        <li><small>Your costs</small><b>Your settings</b><span>Agent fees, freight, insurance and on-road costs saved with every estimate.</span></li>
+      </ul>
+      <button class="video-toggle" id="video-toggle" type="button" aria-pressed="false">Pause video</button>
+      <p class="video-credit">Video: “Car carrier 01” by Koffermejia, CC BY-SA 4.0, trimmed and re-encoded.</p>
+    </div>
+  </section>
+
+  <section class="band-paper" id="photos" aria-labelledby="photos-title">
+    <div class="wrap sec photos">
+      <div>
+        <p class="eyebrow">Preview · AI photo studio</p>
+        <h2 id="photos-title">Car park photos in, showroom photos out.</h2>
+        <p class="sec-intro" style="margin-top: 16px">We're adding an AI photo studio so you can list a car the day you buy it. It cuts the car out of a cluttered auction or car park photo, places it in a clean studio and replaces the number plate with your own.</p>
+        <ul class="ticks">
+          <li>Background removed and replaced with a studio set</li>
+          <li>Colour and contrast lifted, shadow added under the car</li>
+          <li>Number plate found and swapped for your dealership plate</li>
+        </ul>
+        <p class="models">These examples were made from real photos with two open-source models: <b>BiRefNet</b> for cutting the car out and a <b>YOLOS</b> licence-plate detector for finding the plate.</p>
+      </div>
+      <div class="photo-stack">
+        <div class="ba" id="ba">
+          <img class="after" src="media/r34-studio.jpg" alt="Blue Nissan Skyline GT-R R34 in a clean studio with an AgentPivot plate" width="1600" height="1067">
+          <img class="before" src="media/r34-before.jpg" alt="The same R34 photographed outside a workshop with its original plate" width="1600" height="1067">
+          <span class="ba-tag l">Original photo</span>
+          <span class="ba-tag r">AI studio</span>
+          <input id="ba-range" type="range" min="0" max="100" value="50" aria-label="Drag to compare the original photo with the AI studio photo">
+          <span class="ba-line" aria-hidden="true"></span>
+          <span class="ba-knob" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M7 5l-4 5 4 5M13 5l4 5-4 5"/></svg></span>
+        </div>
+        <div class="reel">
+          <video id="reel-video" src="media/studio-reveal.mp4" poster="media/studio-reveal-poster.jpg" autoplay muted loop playsinline aria-label="Supra, R34 and Alphard photos changing from car park to studio"></video>
+          <span>Supra, R34 and Alphard</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" aria-labelledby="faq-title">
+    <div class="wrap sec faq">
+      <div>
+        <p class="eyebrow">Questions</p>
+        <h2 id="faq-title">What dealers ask first</h2>
+      </div>
+      <div class="faq-list">
+        <details>
+          <summary>Does AgentPivot bid on or buy cars for me?</summary>
+          <p>No. It finds cars, reads them and costs them. You review every estimate and place bids yourself. Human review stays in charge of condition, import eligibility, final costs and every bid.</p>
+        </details>
+        <details>
+          <summary>Which state does the driveaway cost cover?</summary>
+          <p>Victoria: motor vehicle duty, roadworthy, registration, TAC and plates. Tell us your state when you sign up for early access.</p>
+        </details>
+        <details>
+          <summary>Where do the resale prices come from?</summary>
+          <p>Matching Australian listings from Autotrader, plus sales records you import. Each estimate shows how many comparables it used, a low to high range and a confidence score with its reasons, such as a small sample or old listings.</p>
+        </details>
+        <details>
+          <summary>How accurate are the costs?</summary>
+          <p>Duty, GST, luxury car tax and Victorian duty follow published rules. Freight, insurance, compliance and repairs are estimates you can change. Every line is labelled, so treat the result as decision support and confirm final costs with quotes.</p>
+        </details>
+        <details>
+          <summary>Why do some auction cars show no profit yet?</summary>
+          <p>Auction lots often have no price until they sell. An opening bid isn't a price, so AgentPivot waits for one. Enter the price you'd pay to see the full estimate.</p>
+        </details>
+        <details>
+          <summary>Can I use my own costs?</summary>
+          <p>Yes. Dealership cost settings cover agent fees, freight, insurance, duty overrides and on-road costs. New searches use them, and each car keeps the settings it was costed with.</p>
+        </details>
+        <details>
+          <summary>When is the AI photo studio available?</summary>
+          <p>It's in preview. Ask for it when you sign up and we'll include you in the first group.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="join" id="join" aria-labelledby="join-title">
+    <img src="media/carrier-melbourne.jpg" alt="" aria-hidden="true" loading="lazy">
+    <div class="wrap sec demo">
+      <div>
+        <p class="eyebrow">Early access</p>
+        <h2 id="join-title">Your next import, costed to Melbourne before you bid.</h2>
+        <p class="sec-intro" style="margin-top: 16px">We're opening AgentPivot to a small group of Australian dealers and importers first, starting in Victoria.</p>
+        <ul class="demo-points">
+          <li>A walkthrough on the cars you're watching right now</li>
+          <li>Your own agent fees, freight and on-road costs set up</li>
+          <li>First look at the AI photo studio</li>
+        </ul>
+      </div>
+      <form class="form" id="join-form" novalidate>
+        <div class="grid-2">
+          <label class="f" for="j-name">Your name
+            <input id="j-name" name="name" type="text" autocomplete="name" required>
+          </label>
+          <label class="f" for="j-dealer">Dealership
+            <input id="j-dealer" name="dealership" type="text" autocomplete="organization" required>
+          </label>
+        </div>
+        <label class="f" for="j-email">Work email
+          <input id="j-email" name="email" type="email" autocomplete="email" required>
+        </label>
+        <div class="grid-2">
+          <label class="f" for="j-state">State
+            <select id="j-state" name="state">
+              <option selected>Victoria</option><option>New South Wales</option><option>Queensland</option><option>Western Australia</option><option>South Australia</option><option>Tasmania</option><option>ACT</option><option>Northern Territory</option>
+            </select>
+          </label>
+          <label class="f" for="j-volume">Imports a year
+            <select id="j-volume" name="volume">
+              <option>Under 10</option><option selected>10 to 50</option><option>50 to 200</option><option>More than 200</option>
+            </select>
+          </label>
+        </div>
+        <button class="btn btn-accent" type="submit">Request early access</button>
+        <p class="form-status" id="form-status" role="status"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#top">
+          <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+            <circle cx="16" cy="16" r="12.5" fill="none" stroke="#233A6B" stroke-width="3" stroke-dasharray="60 19" stroke-linecap="round" transform="rotate(-50 16 16)"/>
+            <circle cx="16" cy="16" r="5.5" fill="#C23B62"/>
+          </svg>
+          <span>AgentPivot</span>
+        </a>
+        <p>Find, cost and price Japanese imports for the Australian market. Estimates support your decisions; they are not quotes or official advice.</p>
+      </div>
+      <div>
+        <h4>Photo and video credits</h4>
+        <ul class="credits">
+          <li>Toyota Alphard GF (black) by Tokumeigakarinoaoshima, <a href="https://commons.wikimedia.org/wiki/File:Toyota_ALPHARD_GF_(H30W)_front.jpg" target="_blank" rel="noopener">CC0</a>. Plate replaced.</li>
+          <li>Toyota Alphard X (silver) by TTTNIS, <a href="https://commons.wikimedia.org/wiki/File:2018-2023_Toyota_Alphard_X.jpg" target="_blank" rel="noopener">CC0</a>. Studio version made with AI.</li>
+          <li>Toyota Supra SZ (A80) by Tokumeigakarinoaoshima, <a href="https://commons.wikimedia.org/wiki/File:Toyota_Supra_SZ_(A80)_front.jpg" target="_blank" rel="noopener">CC0</a>. Studio version made with AI.</li>
+          <li>1999 Nissan Skyline GT-R by Calreyn88, <a href="https://commons.wikimedia.org/wiki/File:1999_Nissan_Skyline_GT-R.jpg" target="_blank" rel="noopener">CC BY-SA 4.0</a>. Background and plate replaced; edits shared under the same licence.</li>
+          <li>Nissan Skyline GT-R V-spec, Brussels, by Matti Blume, <a href="https://commons.wikimedia.org/wiki/File:Nissan_Skyline_GT-R_V-spec,_BAS_24,_Brussels_(P1170369-RR).jpg" target="_blank" rel="noopener">CC BY-SA 4.0</a>. Plate replaced; edits shared under the same licence.</li>
+          <li>Adria Ace, Port of Melbourne, by Bernard Spragg, <a href="https://commons.wikimedia.org/wiki/File:Adria_Ace._Car_carrier_Port_of_Melbourne._(21860228040).jpg" target="_blank" rel="noopener">CC0</a>.</li>
+          <li>“Car carrier 01” video by Koffermejia, <a href="https://commons.wikimedia.org/wiki/File:Car_carrier_01.webm" target="_blank" rel="noopener">CC BY-SA 4.0</a>. Trimmed and re-encoded.</li>
+          <li>AI edits made with <a href="https://huggingface.co/ZhengPeng7/BiRefNet" target="_blank" rel="noopener">BiRefNet</a> (MIT) and <a href="https://huggingface.co/nickmuchi/yolos-small-finetuned-license-plate-detection" target="_blank" rel="noopener">YOLOS licence-plate detection</a>.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot-base">&copy; 2026 AgentPivot. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Videos: no autoplay for reduced motion, and a pause control on the background video.
+  const rulesVideo = $("rules-video");
+  const reelVideo = $("reel-video");
+  const toggle = $("video-toggle");
+  function setRulesPlaying(play) {
+    if (play) rulesVideo.play().catch(() => {}); else rulesVideo.pause();
+    toggle.textContent = play ? "Pause video" : "Play video";
+    toggle.setAttribute("aria-pressed", String(!play));
+  }
+  if (reduce) { rulesVideo.removeAttribute("autoplay"); reelVideo.removeAttribute("autoplay"); rulesVideo.pause(); reelVideo.pause(); reelVideo.controls = true; setRulesPlaying(false); }
+  toggle.addEventListener("click", () => setRulesPlaying(rulesVideo.paused));
+
+  // Auction sheet language toggle
+  const sheet = $("sheet");
+  const langButtons = sheet.querySelectorAll(".lang-toggle button");
+  langButtons.forEach((btn) => btn.addEventListener("click", () => {
+    sheet.dataset.lang = btn.dataset.lang;
+    langButtons.forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+  }));
+
+  // Before and after slider
+  const ba = $("ba");
+  const baRange = $("ba-range");
+  const setPos = () => ba.style.setProperty("--pos", baRange.value + "%");
+  baRange.addEventListener("input", setPos);
+  setPos();
+
+  // Profit calculator. Mirrors the agent's landed cost, Victorian compliance and auction-sheet risk modules.
+  const aud = new Intl.NumberFormat("en-AU", { style: "currency", currency: "AUD", currencyDisplay: "narrowSymbol", maximumFractionDigits: 0 });
+  const fmt = (v) => "A" + aud.format(Math.round(v));
+  const signed = (v) => (v >= 0 ? "+" : "−") + fmt(Math.abs(v));
+  const pct = (v) => (Math.round(v * 10) / 10) + "%";
+  const num = (id) => { const v = parseFloat($(id).value); return Number.isFinite(v) && v >= 0 ? v : 0; };
+
+  const LCT_RATE = 0.33, LCT_FUEL_EFFICIENT = 91661, LCT_OTHER = 80809;
+
+  function sheetAllowance(grade, interior, codes) {
+    let cost = 0;
+    if (/^(R|RA|1|2)/.test(grade)) cost += 2500;
+    else if (/^3/.test(grade)) cost += 1200;
+    if (interior === "D") cost += 1000; else if (interior === "C") cost += 500;
+    return cost + Math.min(2000, codes * 400);
+  }
+  function vicDuty(value, green) {
+    const units = Math.ceil(value / 200);
+    let rate = 8.4;
+    if (!green) rate = value <= 80809 ? 8.4 : value <= 100000 ? 10.4 : value <= 150000 ? 14 : 18;
+    return units * rate;
+  }
+
+  const groupLabels = { car: "Car purchase", ship: "Japan costs, freight and insurance", tax: "Customs duty and import GST", arrive: "Arrival, compliance and repairs", road: "Victorian on-road costs and LCT" };
+  let groups = {};
+  let drive = 0;
+
+  function calc() {
+    const fx = num("c-fx") || 1;
+    const purchase = num("c-jpy") / fx;
+    const japan = num("c-agent") + num("c-inland") + num("c-export");
+    const fob = purchase + japan;
+    const freight = num("c-freight");
+    const insurance = fob * num("c-ins") / 100;
+    const origin = $("c-origin").checked;
+    const duty = fob * (origin ? 0 : 0.05);
+    const voti = fob + duty + freight + insurance;
+    const gst = voti * 0.1;
+    const landed = voti + gst;
+    const arrival = num("c-wharf") + num("c-broker") + num("c-bio") + num("c-adr");
+    const fe = $("c-fe").checked;
+    const lct = Math.max(0, landed - (fe ? LCT_FUEL_EFFICIENT : LCT_OTHER)) * LCT_RATE;
+    const vic = vicDuty(landed, fe);
+    const roadworthy = $("c-old").checked ? 330 : 280;
+    const rego = num("c-rego");
+    const repairs = num("c-repairs");
+    const codes = Math.min(20, Math.floor(num("c-codes")));
+    const grade = $("c-grade").value;
+    const interior = $("c-int").value;
+    const allowance = sheetAllowance(grade, interior, codes);
+    const resale = num("c-resale");
+
+    groups = { car: purchase, ship: japan + freight + insurance, tax: duty + gst, arrive: arrival + repairs + allowance, road: lct + vic + roadworthy + rego };
+    drive = Object.values(groups).reduce((a, b) => a + b, 0);
+    const profit = resale - drive;
+
+    $("r-landed").textContent = fmt(landed);
+    $("r-drive").textContent = fmt(drive);
+    $("r-drive-2").textContent = fmt(drive);
+    $("r-profit").textContent = signed(profit);
+    $("r-margin").textContent = resale > 0 ? pct((profit / resale) * 100) + " of resale" : "";
+    $("r-profit-box").classList.toggle("loss", profit < 0);
+
+    Object.keys(groups).forEach((k) => {
+      const share = drive > 0 ? (groups[k] / drive) * 100 : 0;
+      $("g-" + k).textContent = fmt(groups[k]);
+      $("gp-" + k).textContent = pct(share);
+      const seg = document.querySelector('.seg[data-k="' + k + '"]');
+      seg.style.flexBasis = share + "%";
+      seg.hidden = share < 0.05;
+    });
+
+    const rule = (t) => '<span class="chip chip-rule">' + t + "</span>";
+    const est = '<span class="chip chip-est">Estimate</span>';
+    const you = '<span class="chip chip-you">Your input</span>';
+    const rows = [
+      ["Car purchase at ¥" + fx + " = A$1", purchase, '<span class="chip chip-rule">Exchange rate</span>'],
+      ["Agent fee, inland transport and export paperwork", japan, you],
+      ["Ocean freight", freight, est],
+      ["Marine insurance", insurance, est],
+      ["Customs duty, " + (origin ? "0% with proof of origin" : "5% of FOB"), duty, rule("ABF rule")],
+      ["Import GST, 10%", gst, rule("ABF rule")],
+      ["Landed cost", landed, "", true],
+      ["Wharf, brokerage, biosecurity and ADR work", arrival, you],
+      ["Luxury car tax", lct, rule("ATO rule")],
+      ["Victorian motor vehicle duty", vic, rule("VIC rule")],
+      ["Roadworthy certificate", roadworthy, est],
+      ["Registration, TAC and plates", rego, you],
+      ["Known repairs", repairs, you],
+      ["Auction-sheet allowance", allowance, est],
+      ["Driveaway in Victoria", drive, "", true]
+    ];
+    $("lines").innerHTML = rows.map(([label, v, chip, sub]) =>
+      '<tr' + (sub ? ' class="sub"' : "") + "><td>" + label + (chip ? " " + chip : "") + "</td><td>" + fmt(v) + "</td></tr>"
+    ).join("");
+
+    const warns = [];
+    if (!origin) warns.push("No proof of Japanese origin, so customs duty is charged at 5%.");
+    if (lct > 0) warns.push("Luxury car tax applies: " + fmt(lct) + ".");
+    if (allowance > 0) warns.push((codes ? codes + " damage code" + (codes === 1 ? "" : "s") + " and the sheet grades add " : "The sheet grades add ") + "a " + fmt(allowance) + " repair allowance.");
+    if ($("c-old").checked) warns.push("Over 15 years old or 4WD: confirm the registration pathway and inspection costs.");
+    if (profit < 0) warns.push("At this resale price the car loses money once it's on the road.");
+    $("warns").innerHTML = warns.map((w) => "<li>" + w + "</li>").join("");
+  }
+  $("calc-form").addEventListener("input", calc);
+  $("calc-form").addEventListener("change", calc);
+  $("calc-form").addEventListener("submit", (e) => e.preventDefault());
+  calc();
+
+  // Hover tooltips: driveaway bar and comparables strip
+  const tip = $("tip");
+  const wrap = $("bar-wrap");
+  document.querySelectorAll(".seg").forEach((seg) => {
+    seg.addEventListener("pointerenter", () => {
+      const k = seg.dataset.k;
+      tip.textContent = groupLabels[k] + ": " + fmt(groups[k]) + ", " + pct(drive > 0 ? (groups[k] / drive) * 100 : 0);
+      tip.hidden = false;
+    });
+    seg.addEventListener("pointermove", (e) => {
+      const box = wrap.getBoundingClientRect();
+      tip.style.left = Math.min(Math.max(e.clientX - box.left, 120), box.width - 120) + "px";
+      tip.style.bottom = "auto";
+      tip.style.top = "-6px";
+    });
+    seg.addEventListener("pointerleave", () => { tip.hidden = true; });
+  });
+  const comps = $("comps");
+  const compTip = $("comp-tip");
+  comps.querySelectorAll(".dot").forEach((dot) => {
+    dot.addEventListener("pointerenter", () => {
+      compTip.textContent = "Australian listing: " + fmt(Number(dot.dataset.p));
+      const box = comps.getBoundingClientRect();
+      const d = dot.getBoundingClientRect();
+      compTip.style.left = Math.min(Math.max(d.left + d.width / 2 - box.left, 90), box.width - 90) + "px";
+      compTip.style.top = "-30px";
+      compTip.style.bottom = "auto";
+      compTip.hidden = false;
+    });
+    dot.addEventListener("pointerleave", () => { compTip.hidden = true; });
+    dot.addEventListener("click", () => { $("c-resale").value = dot.dataset.p; calc(); });
+  });
+
+  // Early access form (not connected to a backend yet)
+  const form = $("join-form");
+  const status = $("form-status");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const firstInvalid = form.querySelector(":invalid");
+    if (firstInvalid) {
+      status.textContent = "Fill in your name, dealership and a valid work email.";
+      firstInvalid.focus();
+      return;
+    }
+    status.textContent = "Preview only: this form is not connected yet, so nothing was sent.";
+  });
+})();
+</script>
+</body>
+</html>
