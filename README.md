@@ -12,11 +12,12 @@ The early-access form is not connected to anything yet. To collect sign-ups, poi
 
 ## Custom domain
 
-To serve the site from your own domain (for example `theagentpivot.com`):
+The site is served at https://theautopivot.com (domain registered with Squarespace). The `CNAME` file in this repo sets the domain for GitHub Pages.
 
-1. Add a `CNAME` file to this repo containing the domain name.
-2. At your DNS provider, point the apex domain's A records at GitHub Pages (185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153) and add a `www` CNAME record pointing to `agent47-2026.github.io`.
-3. In **Settings → Pages**, enter the domain and turn on **Enforce HTTPS** once the certificate is issued.
+DNS records at Squarespace:
+
+- `A` records for `@`: 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153
+- `CNAME` record for `www`: `agent47-2026.github.io`
 
 ## Photo and video credits
 
