@@ -349,7 +349,6 @@ details.lines summary { cursor: pointer; padding: 14px 22px; font-weight: 600; f
 .rule-grid b { font: 600 1.6rem/1 var(--f-display); color: #FFFFFF; font-variant-numeric: tabular-nums; }
 .rule-grid span { font-size: var(--s-sm); color: #D9E5DC; }
 .rule-grid small { font: 500 11px/1.3 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--sun); }
-.video-credit { position: relative; z-index: 1; margin: 18px 0 0; font: 400 11px/1.4 var(--f-mono); color: #A9C2B2; }
 .video-toggle { margin-top: 20px; font: 600 12px/1 var(--f-body); padding: 8px 12px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .4); background: transparent; color: #FFFFFF; cursor: pointer; }
 
 /* AI photos */
@@ -404,8 +403,9 @@ details.lines summary { cursor: pointer; padding: 14px 22px; font-weight: 600; f
 .foot-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 2fr); gap: 40px; }
 .foot-grid p { margin: 12px 0 0; color: var(--muted); max-width: 40ch; }
 .foot-grid h4 { margin: 0 0 12px; font: 500 11px/1 var(--f-mono); letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
-.credits { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; font-size: var(--s-xs); color: var(--muted); }
-.credits a { color: var(--primary-2); }
+.maker { display: inline-block; font: 600 1.35rem/1.2 var(--f-display); color: var(--primary); text-decoration: none; }
+.maker:hover { text-decoration: underline; }
+.foot-base a { color: var(--primary-2); }
 .foot-base { margin: 40px 0 0; padding-top: 20px; border-top: 1px solid var(--line); font: 400 var(--s-xs)/1.4 var(--f-mono); color: var(--muted); }
 
 
@@ -981,7 +981,6 @@ body { margin: 0; }
         <li><small>Your costs</small><b>Your settings</b><span>Agent fees, freight, insurance and on-road costs saved with every estimate.</span></li>
       </ul>
       <button class="video-toggle" id="video-toggle" type="button" aria-pressed="false">Pause video</button>
-      <p class="video-credit">Video: “Car carrier 01” by Koffermejia, CC BY-SA 4.0, trimmed and re-encoded.</p>
     </div>
   </section>
 
@@ -1027,7 +1026,7 @@ body { margin: 0; }
           <img src="media/autopivot-icon.png" alt="AutoPivot app icon" width="64" height="64" loading="lazy">
           <div>
             <h3>AutoPivot for iPhone and Android</h3>
-            <p>Accounts are created by your dealership's administrator, so there's no public sign-up. To set up your dealership, email <span class="email">support@luxtradita.com</span> or use the form below.</p>
+            <p>Accounts are created by your dealership's administrator, so there's no public sign-up. To set up your dealership, email <span class="email">admin@exotichutllc.com</span> or use the form below.</p>
           </div>
         </div>
         <div class="reel">
@@ -1124,7 +1123,7 @@ body { margin: 0; }
         </div>
         <button class="btn btn-accent" type="submit">Request access</button>
         <p class="form-status" id="form-status" role="status"></p>
-        <p class="form-alt">Prefer email? <span class="email">support@luxtradita.com</span></p>
+        <p class="form-alt">Prefer email? <span class="email">admin@exotichutllc.com</span></p>
       </form>
     </div>
   </section>
@@ -1139,24 +1138,14 @@ body { margin: 0; }
           <span>AutoPivot</span>
         </a>
         <p>AutoPivot finds, costs and photographs cars for Australian dealers. Estimates support your decisions; they are not quotes or official advice.</p>
-        <p>AutoPivot is made by Lux Tradita. Contact <span class="email">support@luxtradita.com</span>.</p>
       </div>
-      <div>
-        <h4>Photo and video credits</h4>
-        <ul class="credits">
-          <li>RAV4 demo photos and the studio backdrop come from the AutoPivot app.</li>
-          <li>Toyota Alphard GF (black) by Tokumeigakarinoaoshima, <a href="https://commons.wikimedia.org/wiki/File:Toyota_ALPHARD_GF_(H30W)_front.jpg" target="_blank" rel="noopener">CC0</a>. Plate replaced.</li>
-          <li>Toyota Alphard X (silver) by TTTNIS, <a href="https://commons.wikimedia.org/wiki/File:2018-2023_Toyota_Alphard_X.jpg" target="_blank" rel="noopener">CC0</a>.</li>
-          <li>Toyota Supra SZ (A80) by Tokumeigakarinoaoshima, <a href="https://commons.wikimedia.org/wiki/File:Toyota_Supra_SZ_(A80)_front.jpg" target="_blank" rel="noopener">CC0</a>.</li>
-          <li>1999 Nissan Skyline GT-R by Calreyn88, <a href="https://commons.wikimedia.org/wiki/File:1999_Nissan_Skyline_GT-R.jpg" target="_blank" rel="noopener">CC BY-SA 4.0</a>. Background and plate replaced in the studio video; edits shared under the same licence.</li>
-          <li>Nissan Skyline GT-R V-spec, Brussels, by Matti Blume, <a href="https://commons.wikimedia.org/wiki/File:Nissan_Skyline_GT-R_V-spec,_BAS_24,_Brussels_(P1170369-RR).jpg" target="_blank" rel="noopener">CC BY-SA 4.0</a>. Plate replaced; edits shared under the same licence.</li>
-          <li>Adria Ace, Port of Melbourne, by Bernard Spragg, <a href="https://commons.wikimedia.org/wiki/File:Adria_Ace._Car_carrier_Port_of_Melbourne._(21860228040).jpg" target="_blank" rel="noopener">CC0</a>.</li>
-          <li>&ldquo;Car carrier 01&rdquo; video by Koffermejia, <a href="https://commons.wikimedia.org/wiki/File:Car_carrier_01.webm" target="_blank" rel="noopener">CC BY-SA 4.0</a>. Trimmed and re-encoded.</li>
-          <li>Studio edits for this site made with <a href="https://huggingface.co/ZhengPeng7/BiRefNet" target="_blank" rel="noopener">BiRefNet</a> (MIT) and <a href="https://huggingface.co/nickmuchi/yolos-small-finetuned-license-plate-detection" target="_blank" rel="noopener">YOLOS licence-plate detection</a>.</li>
-        </ul>
+      <div class="foot-maker">
+        <h4>Made by</h4>
+        <a class="maker" href="https://theagent47.com" target="_blank" rel="noopener">TheAgent47</a>
+        <p>Contact <span class="email">admin@exotichutllc.com</span></p>
       </div>
     </div>
-    <p class="foot-base">&copy; 2026 Lux Tradita. All rights reserved.</p>
+    <p class="foot-base">&copy; 2026 TheAgent47. All rights reserved. · <a href="https://theagent47.com" target="_blank" rel="noopener">theagent47.com</a></p>
   </div>
 </footer>
 
@@ -1340,8 +1329,8 @@ body { margin: 0; }
     }
     const v = (id) => $(id).value.trim();
     const body = ["Name: " + v("j-name"), "Dealership: " + v("j-dealer"), "Email: " + v("j-email"), "State: " + v("j-state"), "Imports a year: " + v("j-volume")].join("\n");
-    window.location.href = "mailto:support@luxtradita.com?subject=" + encodeURIComponent("AutoPivot for " + v("j-dealer")) + "&body=" + encodeURIComponent(body);
-    status.textContent = "Your email app should open with these details filled in. If it doesn't, email support@luxtradita.com.";
+    window.location.href = "mailto:admin@exotichutllc.com?subject=" + encodeURIComponent("AutoPivot for " + v("j-dealer")) + "&body=" + encodeURIComponent(body);
+    status.textContent = "Your email app should open with these details filled in. If it doesn't, email admin@exotichutllc.com.";
   });
 })();
 </script>

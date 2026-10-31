@@ -8,7 +8,7 @@ It is a single static page (`index.html`) with its images and videos in `media/`
 
 Edit `index.html` and push to `main`. GitHub Pages republishes the site within a minute or two.
 
-The contact form opens the visitor's email app with a message to support@luxtradita.com. To collect sign-ups another way, point it at a form service or your own backend.
+The contact form opens the visitor's email app with a message to admin@exotichutllc.com. To collect sign-ups another way, point it at a form service or your own backend.
 
 ## Custom domain
 
